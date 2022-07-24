@@ -4,13 +4,14 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
 import './App.scss';
+import Main from '../Main/Main';
 
 function App() {
   return (
     <div className="content">
       <div className="wrapper">
         <Header />
-        <Routes></Routes>
+        <Main />
         <Footer />
       </div>
     </div>
