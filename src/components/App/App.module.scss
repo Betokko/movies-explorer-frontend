@@ -1,0 +1,13 @@
+@import url('../../vendor/normalize.css');
+@import url('../../vendor/fonts/inter.css');
+
+.content{
+  font-family: inter;
+  font-weight: 500;
+  background-color: #fff;
+
+  .wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+}
