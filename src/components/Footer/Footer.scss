@@ -1,0 +1,36 @@
+.footer {
+  padding: 0 70px;
+  height: 172px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-size: 13px;
+
+  &__text {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: auto;
+    padding-bottom: 20px;
+    color: #A0A0A0;
+  }
+
+  &__main {
+    border-top: 1px solid #E8E8E8;
+    display: flex;
+  }
+
+  &__copy {
+    margin-right: auto;
+  }
+
+  &__link {
+    color: #000;
+    text-decoration: none;
+    transition: opacity .2s;
+    margin-left: 20px;
+    &:hover {
+      opacity: .5;
+    }
+  }
+}

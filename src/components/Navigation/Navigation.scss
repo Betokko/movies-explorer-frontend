@@ -2,9 +2,11 @@
   display: flex;
   align-items: center;
   &__link {
+    font-size: 13px;
+    line-height: 18;
     margin: 0 8px;
-    text-decoration: none;
     color: #000;
+    text-decoration: none;
     transition: opacity .2s;
     &:hover {
       opacity: .5;
