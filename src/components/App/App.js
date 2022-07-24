@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="content">
       <div className="wrapper">
-        <Header />
+        {/* <Header /> */}
         <Main />
         <Footer />
       </div>
