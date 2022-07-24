@@ -1,0 +1,13 @@
+.nav {
+  display: flex;
+  align-items: center;
+  &__link {
+    margin: 0 8px;
+    text-decoration: none;
+    color: #000;
+    transition: opacity .2s;
+    &:hover {
+      opacity: .5;
+    }
+  }
+}
