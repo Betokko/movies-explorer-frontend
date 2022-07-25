@@ -1,0 +1,42 @@
+.portfolio {
+  padding: 100px 70px 125px;
+  &__main {
+    font-size: 14px;
+    line-height: 20px;
+    color: #A0A0A0;
+  }
+  &__links {
+    margin-top: 50px;
+    list-style: none;
+
+  }
+  &__link {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    transition: opacity .2s;
+    font-size: 30px;
+    line-height: 50px;
+    padding: 20px 0;
+    position: relative;
+    &::after {
+      content: '';
+      width: 29px;
+      height: 60px;
+      position: absolute;
+      right: 0;
+      background-image: url('../../images/arrow-link.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    &:hover {
+      opacity: .5;
+    }
+  }
+  &__item {
+    border-bottom: 1px solid #E8E8E8;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

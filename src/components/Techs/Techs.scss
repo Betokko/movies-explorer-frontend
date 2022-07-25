@@ -1,0 +1,47 @@
+.techs {
+  padding: 100px 70px;
+  background-color: #F5F5F5;
+
+  &__main{
+    font-size: 22px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 23px;
+  }
+
+  &__block {
+    margin-top: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 50px;
+    line-height: 58px;
+    font-weight: 400;
+  }
+
+  &__descr {
+    margin-top: 26px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &__list {
+    width: 690px;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    grid-column: 1fr;
+    margin-top: 100px;
+  }
+
+  &__item {
+    background-color: #E8E8E8;
+    border-radius: 10px;
+    padding: 21px 0 22px;
+    text-align: center;
+    font-size: 14px;
+  }
+}
