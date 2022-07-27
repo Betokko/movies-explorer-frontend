@@ -13,10 +13,13 @@ const AboutMe = () => {
           <h2 className="about-me__info__title">Артур</h2>
           <p className="about-me__info__about">Фронтенд-разработчик, 32 года</p>
           <p className="about-me__info__descr">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis
-            minima incidunt facilis perferendis iste reiciendis, molestias
-            deleniti nobis maiores. Corporis error aliquid nesciunt nemo unde
-            veritatis, natus hic ex voluptates.
+            Мне нравится сфера web-разработки и я хочу в ней раздваиваться.
+            Приятно сразу видеть результат своей работы. <br /> Я прикладываю
+            значительные усилия, чтобы освоить это ремесло, я прохожу курсы,
+            смотрю видео, читаю статьи и книги, занимаюсь разработкой своих
+            pet-проектов Имею успешный опыт командной работы. <br /> В свободное
+            время увленксюь, просмотром фильмов и сериалов, люблю готовку, игры
+            и прогулки на свежем воздухе
           </p>
           <ul className="about-me__info__links">
             <li className="about-me__info__link">

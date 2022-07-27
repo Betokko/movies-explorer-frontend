@@ -1,26 +1,54 @@
 .about-me {
   padding: 110px 70px 0;
+  @media (max-width: 1023px) {
+    padding: 90px 50px 0;
+  }
+  @media (max-width: 767px) {
+    padding: 70px 14px 0;
+  }
   &__main {
     font-size: 22px;
     border-bottom: 1px solid #000;
     padding-bottom: 23px;
+    @media (max-width: 767px) {
+      padding-bottom: 18px;
+    }
   }
 
   &__block {
     margin-top: 66px;
     display: flex;
     justify-content: space-between;
+    @media (max-width: 767px) {
+      flex-direction: column-reverse;
+      margin-top: 60px;
+    }
   }
 
   &__info {
     width: 600px;
     display: flex;
     flex-direction: column;
+    @media (max-width: 1023px) {
+      margin-right: 49px;
+    }
+    @media (max-width: 767px) {
+      width: 100%;
+    }
 
     &__title {
       font-size: 50px;
       line-height: 58px;
       font-weight: 400;
+      @media (max-width: 1023px) {
+        font-size: 40px;
+        line-height: 40px;
+      }
+      @media (max-width: 767px) {
+        flex-direction: column-reverse;
+        margin-top: 40px;
+        font-size: 30px;
+      }
     }
 
     &__about {
@@ -28,24 +56,42 @@
       line-height: 20px;
       font-weight: 500;
       margin-top: 18px;
+      @media (max-width: 1023px) {
+        margin-top: 16px;
+        font-size: 12px;
+        line-height: 18px;
+      }
+      @media (max-width: 767px) {
+        margin-top: 20px;
+      }
     }
 
     &__descr {
       font-size: 14px;
       line-height: 22px;
       margin-top: 26px;
+      @media (max-width: 1023px) {
+        margin-top: 20px;
+        font-size: 12px;
+        line-height: 18px;
+      }
     }
 
     &__links {
       display: flex;
       list-style: none;
       margin-top: auto;
+      @media (max-width: 787px) {
+        margin-top: 40px;
+      }
+      
     }
 
     &__link {
       margin-right: 20px;
       text-decoration: none;
       transition: opaciti .2s;
+      font-size: 14px;
       color: #000;
       &:hover {
         opacity: .5;
@@ -56,5 +102,9 @@
   &__photo {
     object-fit: cover;
     width: 270px;
+    border-radius: 10px;
+    @media (max-width: 767px) {
+      width: 100%;
+    }
   }
 }
