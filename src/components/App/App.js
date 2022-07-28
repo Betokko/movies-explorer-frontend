@@ -5,13 +5,15 @@ import Footer from '../Footer/Footer';
 
 import './App.scss';
 import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
 
 function App() {
   return (
     <div className="content">
       <div className="wrapper">
-        {/* <Header /> */}
-        <Main />
+        <Header />
+        {/* <Main /> */}
+        <Movies/>
         <Footer />
       </div>
     </div>

@@ -7,11 +7,11 @@ import './Header.scss';
 
 const Header = () => {
   return (
-    <div className="header">
+    <section className="header">
       <Link to="/" className="header__link" />
       <Navigation />
       <Link to="/" className="header__button">Аккаунт</Link>
-    </div>
+    </section>
   );
 };
 
