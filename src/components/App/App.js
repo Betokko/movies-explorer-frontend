@@ -7,15 +7,17 @@ import './App.scss';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import Register from '../Register/Register';
 
 function App() {
   return (
     <div className="content">
       <div className="wrapper">
         {/* <Main /> */}
-        <Header />
+        {/* <Header /> */}
         {/* <Movies/> */}
-        <SavedMovies />
+        {/* <SavedMovies /> */}
+        <Register/>
         <Footer />
       </div>
     </div>

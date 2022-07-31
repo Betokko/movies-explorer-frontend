@@ -1,0 +1,19 @@
+.register {
+  height: calc(100vh - 192px);
+  &__container {
+    width: 400px;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__logo {
+    align-self: flex-start;
+  }
+
+  input {
+    display: block;
+  }
+}
