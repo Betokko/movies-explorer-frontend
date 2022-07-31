@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-import './MoviesCardList.scss'
+import './MoviesCardList.scss';
 
-let arr = new Array(12).fill(true);
+const arr = new Array(12).fill(true);
 
-const MoviesCardList = () => {
+const MoviesCardList = ({name}) => {
+
+
   return (
-    <section className='movies-card-list'>
-      <ul className='movies-card-list__items'>
-        {arr.map((item) => (
-            <MoviesCard />
+    <section className="movies-card-list">
+      <ul className="movies-card-list__items">
+        {arr.map((value) => (
+          <MoviesCard name={name} />
         ))}
       </ul>
-      <input type="submit" value="Ещё" className='movies-card-list__button'/>
+      <input type="submit" value="Ещё" className="movies-card-list__button" />
     </section>
   );
 };

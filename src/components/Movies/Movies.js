@@ -11,7 +11,7 @@ const Movies = () => {
     <>
       <SearchForm />
       <Preloader />
-      <MoviesCardList />
+      <MoviesCardList name="Сохранить" />
     </>
   );
 };
