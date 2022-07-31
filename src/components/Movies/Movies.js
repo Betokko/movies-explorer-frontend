@@ -10,7 +10,7 @@ const Movies = () => {
   return (
     <>
       <SearchForm />
-      {/* <Preloader /> */}
+      <Preloader />
       <MoviesCardList />
     </>
   );

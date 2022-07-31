@@ -1,10 +1,25 @@
 .movies-card-list {
   padding: 70px;
+  @media (max-width: 1023px) {
+    padding: 70px 30px;
+  }
+  @media (max-width: 767px) {
+    padding: 50px 10px;
+  }
   &__items {
     display: grid;
     list-style: none;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 60px 30px;
+    @media (max-width: 1023px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 47px 30px;
+    }
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+      grid-gap: 39px;
+    }
+
   }
   &__button {
     cursor: pointer;

@@ -11,9 +11,7 @@ const MoviesCardList = () => {
     <section className='movies-card-list'>
       <ul className='movies-card-list__items'>
         {arr.map((item) => (
-          <li className='movies-card-list__item'>
             <MoviesCard />
-          </li>
         ))}
       </ul>
       <input type="submit" value="Ещё" className='movies-card-list__button'/>

@@ -4,17 +4,17 @@ import './MoviesCard.scss'
 
 const MoviesCard = () => {
   return (
-    <div className='movie-card'>
-      <div>
-        <div className="movie-card__save">Сохранить</div>
-        <div className="movie-checked">Ok</div>
-        <img className='movie-card__img' src="https://via.placeholder.com/360x200" alt="" />
+    <li className='movie-card'>
+      <div className='movie-card__main'>
+        <div className="movie-card__main__save">Сохранить</div>
+        <div className="movie-card__main__checked"></div>
+        <img className='movie-card__main__img' src="https://via.placeholder.com/360x200" alt="" />
       </div>
-      <div>
-        <p>33 слова о дизайне</p>
-        <div>1ч 30м</div>
+      <div className='movie-card__about'>
+        <p className='movie-card__about__name'>33 слова о дизайне</p>
+        <div className='movie-card__about__duration'>1ч 30м</div>
       </div>
-    </div>
+    </li>
   );
 };
 

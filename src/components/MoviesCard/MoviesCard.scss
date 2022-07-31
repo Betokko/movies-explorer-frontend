@@ -1,5 +1,72 @@
 .movie-card {
-  &__img {
-    border-radius: 6px;
+
+  &__main {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &__save {
+      display: none;
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      border-radius: 30px;
+      font-size: 10px;
+      line-height: 9px;
+      padding: 6px 7px;
+      background-color: #F9F9F9;
+    }
+
+    &__checked {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background-color: #FF3055;
+      background-image: url('../../images/icon-check.svg');
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    &__img {
+      border-radius: 6px;
+      width: 100%;
+      background-size: cover;
+    }
+
+    &:hover > &__save{
+      display: block;
+    }
+  }
+
+
+
+  &__about {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    @media (max-width: 767px) {
+      padding: 16px 0 0;
+    }
+
+    &__name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+    @media (max-width: 767px) {
+      font-size: 12px;
+    }
+
+    &__duration {
+      font-size: 11px;
+      line-height: 10px;
+      color: #A0A0A0;
+      padding: 3px 4px;
+      background-color: #F9F9F9;
+      border-radius: 3px;
+    }
   }
 }

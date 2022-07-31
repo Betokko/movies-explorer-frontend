@@ -1,13 +1,26 @@
 .search-form {
-  padding: 80px 70px;
+  padding: calc(80px + 74px) 70px 80px;
   display: flex;
   position: relative;
+  @media (max-width: 1023px) {
+    flex-direction: column;
+    padding: calc(60px + 74px) 30px 60px;
+  }
+  @media (max-width: 767px) {
+    padding: calc(60px + 74px) 10px 44px;
+  }
   &::before {
     content: "";
     border-bottom: 1px solid rgba($color: #aaa, $alpha: .2);
     position: absolute;
     bottom: 0;
     width: calc(100% - 70px * 2);
+    @media (max-width: 1023px) {
+      width: calc(100% - 30px * 2);
+    }
+    @media (max-width: 767px) {
+      width: calc(100% - 10px * 2);
+    }
   }
 
   &__container {
@@ -43,6 +56,13 @@
   &__shorts {
     display: flex;
     align-items: center;
+    @media (max-width: 1023px) {
+      margin-top: 38px;
+      align-self: center;
+    }
+    @media (max-width: 767px) {
+      margin-top: 45px;
+    }
     &__title {
       font-size: 13px;
       line-height: 18px;

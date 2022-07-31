@@ -13,7 +13,7 @@ function App() {
       <div className="wrapper">
         <Header />
         {/* <Main /> */}
-        <Movies/>
+        {/* <Movies/> */}
         <Footer />
       </div>
     </div>

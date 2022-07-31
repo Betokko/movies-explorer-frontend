@@ -1,6 +1,7 @@
 .nav {
   display: flex;
   align-items: center;
+
   &__link {
     font-size: 13px;
     line-height: 18px;
@@ -11,5 +12,15 @@
     &:hover {
       opacity: .5;
     }
+    @media (max-width: 1023px) {
+      font-style: 18px;
+      font-weight: 500;
+      padding-bottom: 28px;
+    }
+  }
+  @media (max-width: 1023px) {
+    flex-direction: column;
+    font-style: 18px;
+    font-weight: 500;
   }
 }
