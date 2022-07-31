@@ -12,10 +12,10 @@ function App() {
   return (
     <div className="content">
       <div className="wrapper">
-        <Header />
         {/* <Main /> */}
+        <Header />
         {/* <Movies/> */}
-        {/* <SavedMovies /> */}
+        <SavedMovies />
         <Footer />
       </div>
     </div>

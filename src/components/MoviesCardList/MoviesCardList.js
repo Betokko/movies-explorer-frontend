@@ -4,15 +4,14 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 
 import './MoviesCardList.scss';
 
-const arr = new Array(12).fill(true);
 
-const MoviesCardList = ({name}) => {
+const MoviesCardList = ({name, arr}) => {
 
 
   return (
     <section className="movies-card-list">
       <ul className="movies-card-list__items">
-        {arr.map((value) => (
+        {arr.map(() => (
           <MoviesCard name={name} />
         ))}
       </ul>
