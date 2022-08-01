@@ -1,19 +1,59 @@
 .register {
-  height: calc(100vh - 192px);
+
   &__container {
-    width: 400px;
-    height: 100%;
+    max-width: 400px;
     margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    @media (max-width: 767px) {
+      min-width: 260px;
+      padding: 0 30px;
+    }
   }
 
   &__logo {
     align-self: flex-start;
+    min-height: 38px;
+    display: block;
+    @media (max-width: 767px) {
+      align-self: center;
+    }
   }
 
-  input {
-    display: block;
+  &__title {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 40px 0;
+    @media (max-width: 767px) {
+      margin: 50px 0 80px;
+      text-align: center;
+    }
+  }
+
+  &__submit {
+    margin-top: (65px + 69px);
+    height: 45px;
+    width: 100%;
+    background-color: #3456F3;
+    border: none;
+    color: #fff;
+  }
+  @media (max-width: 767px) {
+    margin-top: auto;
+  }
+
+  &__bottom {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+
+    &__link {
+      margin-left: 6px;
+      color: #3456F3;
+      text-decoration: none;
+    }
   }
 }
+
+

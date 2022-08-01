@@ -17,8 +17,8 @@ function App() {
         {/* <Header /> */}
         {/* <Movies/> */}
         {/* <SavedMovies /> */}
+        {/* <Footer /> */}
         <Register/>
-        <Footer />
       </div>
     </div>
   );
