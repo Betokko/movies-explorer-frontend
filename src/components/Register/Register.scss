@@ -74,6 +74,11 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     appearance: none;
 
+    &-error {
+      color: #FF3055;
+      border-bottom: 1px solid #FF3055;
+    }
+
     &:focus {
       border-color: #3456F3;
       outline: none;

@@ -35,7 +35,7 @@ const Register = () => {
                   message: 'Имя должно содержать не менее 2 символов',
                 },
               })}
-              className="text-field__input"
+              className={`text-field__input ${errors.name ? 'text-field__input-error' : ''}`}
               type="text"
               id="name"
             />
@@ -54,7 +54,7 @@ const Register = () => {
                     validator.isEmail(v) || 'Укажите корректный email',
                 },
               })}
-              className="text-field__input"
+              className={`text-field__input ${errors.email ? 'text-field__input-error' : ''}`}
               type="email"
               id="email"
             />
@@ -72,7 +72,7 @@ const Register = () => {
                   message: 'Пароль должен содержать не менее 2 символов',
                 },
               })}
-              className="text-field__input"
+              className={`text-field__input ${errors.password ? 'text-field__input-error' : ''}`}
               type="password"
               id="password"
             />
