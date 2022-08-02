@@ -10,6 +10,7 @@ const Header = () => {
 
   return (
     <section className={`header ${burgerIsActive ? 'header-active' : ''}`}>
+      {burgerIsActive ? <div className={'header__overlay'} /> : null}
       <NavLink to="/" className="header__logo" />
       <div className={`header__menu ${ burgerIsActive ? '' : 'header__menu-active' }`} >
         <div className='header__menu__items'>

@@ -14,6 +14,17 @@
     padding: 0 30px;
     width: calc(100% - 60px);
   }
+
+  &__overlay {
+    z-index: 50;
+    position: absolute;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,.3);
+  }
   
   &__logo {
     align-self: center;
@@ -38,6 +49,7 @@
 
     &__items {
       display: flex;
+      z-index: 100;
       @media (max-width: 1023px) {
         &::before {
           content: 'Главная';

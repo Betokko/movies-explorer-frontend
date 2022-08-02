@@ -1,43 +1,55 @@
 .movie-card {
+  position: relative;
+
+  &__save {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    z-index: 50;
+    border-radius: 30px;
+    font-size: 10px;
+    line-height: 9px;
+    padding: 6px 6px;
+    background-color: #F9F9F9;
+    @media (max-width: 1023px) {
+      display: block;
+    }
+  }
+
+  &:hover &__save {
+    display: block;
+  }
+
+  &__checked {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    z-index: 50;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: #FF3055;
+    background-image: url('../../images/icon-check.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
 
   &__main {
-    cursor: pointer;
     position: relative;
-    overflow: hidden;
+    padding-bottom: 58.5%;
 
-    &__save {
-      display: none;
-      position: absolute;
-      right: 14px;
-      top: 14px;
-      border-radius: 30px;
-      font-size: 10px;
-      line-height: 9px;
-      padding: 6px 7px;
-      background-color: #F9F9F9;
-    }
 
-    &__checked {
-      position: absolute;
-      right: 14px;
-      top: 14px;
-      width: 21px;
-      height: 21px;
-      border-radius: 50%;
-      background-color: #FF3055;
-      background-image: url('../../images/icon-check.svg');
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
 
     &__img {
-      border-radius: 6px;
       width: 100%;
-      background-size: cover;
-    }
-
-    &:hover > &__save{
-      display: block;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 6px;
     }
   }
 
