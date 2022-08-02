@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Navigation from '../Navigation/Navigation';
 
@@ -10,11 +10,11 @@ const Header = () => {
 
   return (
     <section className={`header ${burgerIsActive ? 'header-active' : ''}`}>
-      <Link to="/" className="header__logo" />
+      <NavLink to="/" className="header__logo" />
       <div className={`header__menu ${ burgerIsActive ? '' : 'header__menu-active' }`} >
         <div className='header__menu__items'>
           <Navigation />
-          <Link to="/profile" className="header__menu__items__account_button">Аккаунт</Link>
+          <NavLink to="/profile" className="header__menu__items__account_button">Аккаунт</NavLink>
         </div>
 
         <div className="header__burger" onClick={() => setBurgerIsActive(!burgerIsActive)}>

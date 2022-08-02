@@ -7,6 +7,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import Layout from "../Layout/Layout";
+import PageNotFound from "../PageNotFound/PageNotFound";
 import "./App.scss";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
     </div>

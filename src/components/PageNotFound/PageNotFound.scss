@@ -1,0 +1,36 @@
+.not-found {
+    height: calc(100vh - 310px);
+    padding: 250px 0 60px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @media (max-width: 767px) {
+        padding: 250px 10px 30px;
+    }
+    &__title {
+        font-size: 140px;
+        font-weight: 400;
+        @media (max-width: 767px) {
+            font-size: 80px;
+        }
+    }
+    &__descr {
+        font-size: 16px;
+        @media (max-width: 767px) {
+            font-size: 12px;
+        }
+    }
+    &__link {
+        font-size: 14px;
+        color: #3456F3;
+        text-decoration: none;
+        transition: opacity .2s;
+        @media (max-width: 767px) {
+            font-size: 12px;
+        }
+        &:hover {
+            opacity: .5;
+        }
+    }
+}
