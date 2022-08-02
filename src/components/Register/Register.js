@@ -91,7 +91,7 @@ const Register = () => {
         </form>
         <div className="register__bottom">
           <div>Уже зарегистрированы?</div>
-          <Link className="register__bottom__link" to="/">
+          <Link className="register__bottom__link" to="/signin">
             Войти
           </Link>
         </div>
