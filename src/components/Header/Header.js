@@ -14,7 +14,7 @@ const Header = () => {
       <div className={`header__menu ${ burgerIsActive ? '' : 'header__menu-active' }`} >
         <div className='header__menu__items'>
           <Navigation />
-          <Link to="/" className="header__menu__items__account_button">Аккаунт</Link>
+          <Link to="/profile" className="header__menu__items__account_button">Аккаунт</Link>
         </div>
 
         <div className="header__burger" onClick={() => setBurgerIsActive(!burgerIsActive)}>
