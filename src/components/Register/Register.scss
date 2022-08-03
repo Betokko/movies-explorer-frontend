@@ -39,6 +39,13 @@
     margin-top: 16px;
     display: flex;
     justify-content: center;
+    @media (max-width: 1023px) {
+      font-size: 14px;
+    }
+    @media (max-width: 767px) {
+      font-size: 12px;
+    }
+
 
     &__link {
       margin-left: 6px;
