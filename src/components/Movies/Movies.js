@@ -9,11 +9,11 @@ const arr = new Array(12).fill(true);
 
 const Movies = () => {
   return (
-    <>
+    <main>
       <SearchForm />
       <Preloader />
       <MoviesCardList name="Сохранить" arr={arr} />
-    </>
+    </main>
   );
 };
 

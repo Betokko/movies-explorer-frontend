@@ -1,6 +1,7 @@
 .about-project {
   padding: 110px 70px 141px;
   display: grid;
+  grid-column-gap: 40px;
   grid-template-areas: 
   "top top "
   "mid-l mid-r"

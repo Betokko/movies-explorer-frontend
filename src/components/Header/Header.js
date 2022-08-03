@@ -9,7 +9,7 @@ const Header = () => {
   const [burgerIsActive, setBurgerIsActive] = useState(false);
 
   return (
-    <section className={`header ${burgerIsActive ? 'header-active' : ''}`}>
+    <header className={`header ${burgerIsActive ? 'header-active' : ''}`}>
       {burgerIsActive ? <div className={'header__overlay'} /> : null}
       <NavLink to="/" className="header__logo" />
       <div className={`header__menu ${ burgerIsActive ? '' : 'header__menu-active' }`} >
@@ -23,7 +23,7 @@ const Header = () => {
         </div>
 
       </div>
-    </section>
+    </header>
   );
 };
 

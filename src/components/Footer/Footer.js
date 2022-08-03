@@ -5,7 +5,7 @@ import './Footer.scss';
 
 const Footer = () => {
   return (
-    <section className="footer">
+    <footer className="footer">
       <p className="footer__text">
         Учебный проект Яндекс.Практикум х BeatFilm.
       </p>
@@ -21,7 +21,7 @@ const Footer = () => {
           Facebook
         </Link>
       </div>
-    </section>
+    </footer>
   );
 };
 

@@ -10,8 +10,8 @@ const Profile = () => {
   });
 
   return (
-    <section className="profile">
-      <div className="profile__container">
+    <main className="profile">
+      <section className="profile__container">
         <div className="profile__items">
           <h2 className="profile__title">Привет, {user.name}!</h2>
           <label className="profile__items__label" htmlFor="name">
@@ -43,8 +43,8 @@ const Profile = () => {
             Выйти из аккаунта
           </Link>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 };
 

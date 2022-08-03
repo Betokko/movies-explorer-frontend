@@ -10,19 +10,19 @@ const Portfolio = () => {
       <p className="portfolio__main">Портфолио</p>
       <ul className="portfolio__links">
         <li className="portfolio__item">
-          <Link className="portfolio__link" to="#">
+          <a className="portfolio__link" href="https://how-to-learn-two.vercel.app/" target='blanc'>
             Статичный сайт
-          </Link>
+          </a>
         </li>
         <li className="portfolio__item">
-          <Link className="portfolio__link" to="#">
+          <a className="portfolio__link" href="https://betokko.github.io/russian-travel/" target='blanc'>
             Адаптивный сайт
-          </Link>
+          </a>
         </li>
         <li className="portfolio__item">
-          <Link className="portfolio__link" to="#">
+          <a className="portfolio__link" href="https://mesto-mern.nomoreparties.sbs/" target='blanc'>
             Одностраничное приложение
-          </Link>
+          </a>
         </li>
       </ul>
     </section>

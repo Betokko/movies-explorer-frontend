@@ -11,7 +11,7 @@ const MoviesCard = ({ name }) => {
         <img
           className="movie-card__main__img"
           src="https://via.placeholder.com/360x200"
-          alt=""
+          alt="Карточка"
         />
       </div>
       <div className="movie-card__about">
