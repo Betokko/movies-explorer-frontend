@@ -3,13 +3,13 @@ import { NavLink } from 'react-router-dom';
 
 import './Navigation.scss';
 
-const Navigation = () => {
+const Navigation = ({onClickHandler}) => {
   return (
     <div className="nav">
-      <NavLink to="/movies" className="nav__link">
+      <NavLink to="/movies" className="nav__link" onClick={onClickHandler}>
         Фильмы
       </NavLink>
-      <NavLink to="/saved-movies" className="nav__link">
+      <NavLink to="/saved-movies" className="nav__link" onClick={onClickHandler}>
         Сохранённые&nbsp;фильмы
       </NavLink>
     </div>
