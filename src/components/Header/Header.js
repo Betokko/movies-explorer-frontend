@@ -18,7 +18,7 @@ const Header = () => {
           <NavLink to="/profile" className="header__menu__items__account_button">Аккаунт</NavLink>
         </div>
 
-        <div className="header__burger" onClick={() => setBurgerIsActive(!burgerIsActive)}>
+        <div className="header__burger">
           <span />
         </div>
 

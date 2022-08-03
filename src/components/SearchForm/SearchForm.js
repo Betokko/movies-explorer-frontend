@@ -10,7 +10,7 @@ const SearchForm = () => {
           type="text"
           placeholder="Фильм"
           className="search-form__container__field"
-          required='true'
+          required={true}
         />
         <button
           type="submit"
