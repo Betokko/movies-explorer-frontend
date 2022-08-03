@@ -11,15 +11,12 @@ const Footer = () => {
       </p>
       <div className="footer__main">
         <p className="footer__copy">© 2022</p>
-        <Link to="/" className="footer__link">
+        <a href="https://practicum.yandex.ru/" className="footer__link" target='blanc'>
           Яндекс.Практикум
-        </Link>
-        <Link to="/" className="footer__link">
+        </a>
+        <a href="https://github.com/Betokko" className="footer__link" target='blanc'>
           Github
-        </Link>
-        <Link to="/" className="footer__link">
-          Facebook
-        </Link>
+        </a>
       </div>
     </footer>
   );
