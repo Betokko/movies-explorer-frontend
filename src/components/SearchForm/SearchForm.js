@@ -12,7 +12,7 @@ const SearchForm = () => {
           className="search-form__container__field"
           required='true'
         />
-        <input
+        <button
           type="submit"
           value=""
           className="search-form__container__button"
