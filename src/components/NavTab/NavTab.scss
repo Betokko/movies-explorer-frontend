@@ -1,0 +1,51 @@
+.nav-tab {
+  display: flex;
+  align-items: center;
+  background-color: #073042;
+  color: #fff;
+  padding: 0 70px;
+  height: 74px;
+  @media (max-width: 1023px) {
+    padding: 0 30px;
+  }
+  @media (max-width: 767px) {
+    padding: 0 14px;
+  }
+
+  &__link {
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    transition: opacity .2s;
+    @media (max-width: 767px) {
+      font-size: 10px;
+    }
+
+    &:hover {
+      opacity: .5;
+    }
+
+    &-logo {
+      width: 38px;
+      height: 38px;
+      margin-right: auto;
+      background-image: url('../../images/logo.svg');
+    }
+  
+    &-signin {
+      color: #fff;
+    }
+  
+    &-signup {
+      margin-left: 30px;
+      color: #000;
+      background-color: #2BE080;
+      padding: 8px 20px;
+      border-radius: 3px;
+      @media (max-width: 767px) {
+        margin-left: 14px;
+      }
+    }
+  }
+}

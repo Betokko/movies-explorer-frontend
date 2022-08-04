@@ -1,0 +1,107 @@
+.about-project {
+  padding: 110px 70px 141px;
+  display: grid;
+  grid-column-gap: 40px;
+  grid-template-areas: 
+  "top top "
+  "mid-l mid-r"
+  "bot bot";
+  @media (max-width: 1023px) {
+    padding: 90px 50px 121px;
+  }
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    padding: 70px 18px 93px;
+  }
+
+  &__title {
+    grid-area: top;
+    font-size: 22px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 23px;
+    margin-bottom: 70px;
+    @media (max-width: 767px) {
+      font-size: 18px;
+      padding-bottom: 28px;
+      margin-bottom: 60px;
+    }
+  }
+
+  &__section {
+    margin-bottom: 110px;
+    @media (max-width: 1023px) {
+      margin-bottom: 93px;
+    }
+    @media (max-width: 767px) {
+      margin-bottom: 56px;
+    }
+    &__title {
+      font-size: 20px;
+      margin-bottom: 26px;
+      @media (max-width: 767px) {
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+    }
+    &__descr {
+      font-size: 14px;
+      line-height: 20px;
+      @media (max-width: 1023px) {
+        font-size: 12px;
+        line-height: 18px;
+      }
+      @media (max-width: 767px) {
+        font-size: 11px;
+        line-height: 16px;
+      }
+    }
+  }
+  
+  &__timeline{
+    grid-area: bot;
+    display: flex;
+    height: 36px;
+    font-size: 14px;
+    @media (max-width: 767px) {
+      font-size: 11px;
+    }
+    &__back{
+      display: block;
+      width: 20%;
+      background-color: #2BE080;
+      @media (max-width: 767px) {
+        width: 40%;
+      }
+      &__week{
+        display: block;
+        width: fit-content;
+        margin: 9px auto;
+        &::after {
+          content: 'Back-end';
+          color: #A0A0A0;
+          margin-top: 23px;
+          display: block;
+        }
+      }
+    }
+    &__front{
+      display: block;
+      width: 80%;
+      background-color: #F2F2F2;
+      &__week{
+        display: block;
+        width: fit-content;
+        margin: 9px auto;
+        &::after {
+          content: 'Front-end';
+          color: #A0A0A0;
+          margin-top: 23px;
+          display: block;
+        }
+      }
+    }
+
+
+  }
+}
