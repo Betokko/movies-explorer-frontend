@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Main from '../Main/Main';
@@ -15,6 +15,20 @@ import movieApi from '../../utils/MoviesApi';
 
 function App() {
   const [cards, setCards] = useState([]);
+  const [isShort, setIsShort] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const shortCards = useMemo(() => {
+    if (!isShort) {
+      return cards
+    }
+    return cards.filter(card => card.duration <= 40)
+  }, [isShort, cards])
+
+  const sortAndSearchedCards = useMemo(() => {
+    return shortCards.filter(card => card.nameRU.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
+  }, [searchQuery, shortCards]);
+
   useEffect(() => {
     movieApi.getCards().then((res) => setCards(res));
   }, []);
@@ -29,10 +43,24 @@ function App() {
             <Route path="/" element={<Main />} />
           </Route>
           <Route element={<Layout />}>
-            <Route path="/movies" element={<Movies cards={cards} />} />
+            <Route
+              path="/movies"
+              element={
+                <Movies
+                  cards={sortAndSearchedCards}
+                  searchQuery={searchQuery}
+                  setSearchQuery={setSearchQuery}
+                  isShort={isShort}
+                  setIsShort={setIsShort}
+                />
+              }
+            />
           </Route>
           <Route element={<Layout />}>
-            <Route path="/saved-movies" element={<SavedMovies cards={cards}  />} />
+            <Route
+              path="/saved-movies"
+              element={<SavedMovies cards={cards} />}
+            />
           </Route>
           <Route element={<Layout />}>
             <Route path="/profile" element={<Profile />} />
