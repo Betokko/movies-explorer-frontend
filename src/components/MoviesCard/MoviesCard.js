@@ -20,7 +20,7 @@ const MoviesCard = ({ name, card }) => {
       <div className="movie-card__about">
         <a href={card.trailerLink} target='blanc' className="movie-card__about__name">{card.nameRU}</a>
         <div className="movie-card__about__duration">
-          {hours ? hours + 'ч' : ''} {minutes ? minutes + 'м' : ''}
+          {hours ? hours + 'ч' : ''}&nbsp;{minutes ? minutes + 'м' : ''}
         </div>
       </div>
     </li>

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import './SearchForm.scss';
 
-const SearchForm = ({ setSearchQuery, setIsShort }) => {
+const SearchForm = ({ setSearchQuery, setIsShort, setWasARequest, setIsLoading }) => {
   const {
     register,
     formState: { errors },
@@ -13,8 +13,10 @@ const SearchForm = ({ setSearchQuery, setIsShort }) => {
   } = useForm();
 
   const onSubmit = (data) => {
+    setIsLoading(true)
     reset();
     setSearchQuery(data.search);
+    setWasARequest(true)
   };
 
   const checkbox = useRef()
@@ -43,7 +45,7 @@ const SearchForm = ({ setSearchQuery, setIsShort }) => {
       <div className="search-form__shorts">
         <span className="search-form__shorts__title">Короткометражки</span>
         <label htmlFor="shorts" className="search-form__shorts__checkbox">
-          <input type="checkbox" id="shorts" ref={checkbox} onClick={() => setIsShort(checkbox.current.checked)} />
+          <input type="checkbox" id="shorts" ref={checkbox} onChange={() => setIsShort(checkbox.current.checked)}/>
           <span className="search-form__shorts__checkbox__bg"></span>
           <i className="search-form__shorts__checkbox__indicator"></i>
         </label>

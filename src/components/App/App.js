@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Main from '../Main/Main';
@@ -14,24 +14,32 @@ import './App.scss';
 import movieApi from '../../utils/MoviesApi';
 
 function App() {
+  const [wasARequest, setWasARequest] = useState(false);
   const [cards, setCards] = useState([]);
   const [isShort, setIsShort] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const shortCards = useMemo(() => {
+  const sortedCards = useMemo(() => {
     if (!isShort) {
-      return cards
+      return cards;
     }
-    return cards.filter(card => card.duration <= 40)
-  }, [isShort, cards])
+    return cards.filter((card) => card.duration <= 40);
+  }, [isShort, cards]);
 
-  const sortAndSearchedCards = useMemo(() => {
-    return shortCards.filter(card => card.nameRU.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
-  }, [searchQuery, shortCards]);
+  const sortedAndSearchedCards = useMemo(() => {
+    return sortedCards.filter((card) =>
+      card.nameRU.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+    );
+  }, [searchQuery, sortedCards]);
 
-  useEffect(() => {
-    movieApi.getCards().then((res) => setCards(res));
-  }, []);
+  if (wasARequest) {
+    movieApi
+      .getCards()
+      .then((res) => setCards(res))
+      .then(() => setIsLoading(false))
+      .catch((err) => console.log(err));
+  }
 
   return (
     <div className="content">
@@ -47,11 +55,15 @@ function App() {
               path="/movies"
               element={
                 <Movies
-                  cards={sortAndSearchedCards}
+                  cards={sortedAndSearchedCards}
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}
                   isShort={isShort}
                   setIsShort={setIsShort}
+                  wasARequest={wasARequest}
+                  setWasARequest={setWasARequest}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
                 />
               }
             />

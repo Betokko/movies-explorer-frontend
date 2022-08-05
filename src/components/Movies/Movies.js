@@ -8,22 +8,26 @@ import './Movies.scss';
 
 const Movies = ({
   cards,
-  searchQuery,
   setSearchQuery,
-  isShort,
   setIsShort,
+  wasARequest,
+  setWasARequest,
+  isLoading,
+  setIsLoading
 }) => {
   return (
     <main>
       <SearchForm
-        cards={cards}
-        searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        isShort={isShort}
         setIsShort={setIsShort}
+        setWasARequest={setWasARequest}
+        setIsLoading={setIsLoading}
       />
-      <Preloader />
-      <MoviesCardList name="Сохранить" cards={cards} />
+      {wasARequest && !cards.length ? <div style={{textAlign: 'center'}}>Ничего не найдено</div> : null}
+      {isLoading 
+       ? <Preloader /> 
+       : <MoviesCardList name="Сохранить" cards={cards} />
+       }
     </main>
   );
 };
