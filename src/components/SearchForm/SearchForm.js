@@ -30,7 +30,7 @@ const SearchForm = ({ setSearchQuery, setIsShort, fetchCards,  setLimit, setWasR
       >
         <input
           type="text"
-          placeholder={request ? 'Результаты поиска: "'+request : 'Фильм'}
+          placeholder={request ? 'Результаты поиска: '+request : 'Фильм'}
           className="search-form__container__field"
           {...register('search', { required: 'Нужно ввести ключевое слово' })}
         />

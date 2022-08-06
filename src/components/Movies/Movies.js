@@ -13,7 +13,7 @@ const Movies = ({
   isLoading,
   fetchCards,
   limit,
-  setLimit
+  setLimit,
 }) => {
   const [wasRequest, setWasRequest] = useState(false);
   return (
@@ -29,7 +29,7 @@ const Movies = ({
       {/* {wasARequest && !cards.length ? <div style={{textAlign: 'center'}}>Ничего не найдено</div> : null} */}
       {isLoading 
        ? <Preloader /> 
-       : <MoviesCardList name="Сохранить" cards={cards} limit={limit} setLimit={setLimit}/>
+       : <MoviesCardList name="Сохранить" cards={cards} limit={limit} setLimit={setLimit} />
        }
        {cards.length === 0 && wasRequest ? <div style={{textAlign: 'center'}}>Ничего не найдено</div> : null}
     </main>

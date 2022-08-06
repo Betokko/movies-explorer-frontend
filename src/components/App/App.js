@@ -19,9 +19,10 @@ function App() {
   const [isShort, setIsShort] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [limit, setLimit] = useState(9)
-  const sortedAndSearchedCards = useSortedAndSearchedCards(cards, isShort, searchQuery);
-  
+  const [limit, setLimit] = useState(0)
+  const sortedAndSearchedCards = useSortedAndSearchedCards(cards, isShort, searchQuery);  
+  // const [width, setWidth]   = useState(window.innerWidth);
+
   const fetchCards = () => {
     setIsLoading(true);
     movieApi

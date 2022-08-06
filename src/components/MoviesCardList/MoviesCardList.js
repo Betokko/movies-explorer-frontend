@@ -3,7 +3,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.scss';
 
 
-const MoviesCardList = ({name, cards, limit, setLimit}) => {
+const MoviesCardList = ({name, cards, limit, setLimit }) => {
   return (
     <section className="movies-card-list">
       <ul className="movies-card-list__items">
