@@ -1,24 +1,25 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
 import './SearchForm.scss';
 
-const SearchForm = ({ setSearchQuery, setIsShort, setWasARequest, setIsLoading }) => {
+const SearchForm = ({ setSearchQuery, setIsShort, fetchCards,  setLimit, setWasRequest }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm();
-
   const onSubmit = (data) => {
-    setIsLoading(true)
     reset();
     setSearchQuery(data.search);
-    setWasARequest(true)
+    fetchCards()
+    setLimit(9)
+    setWasRequest(true)
+    setRequest(data.search)
   };
-
+  const [request, setRequest] = useState('')
   const checkbox = useRef()
 
   return (
@@ -40,6 +41,7 @@ const SearchForm = ({ setSearchQuery, setIsShort, setWasARequest, setIsLoading }
         />
         <div className="search-form__container__error">
           {errors.search && errors.search.message}
+          <span style={{color: '#ccc', fontSize: '14px'}}>Поиск по слову: "{request}"</span>
         </div>
       </form>
       <div className="search-form__shorts">

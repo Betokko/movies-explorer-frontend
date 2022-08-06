@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Main from '../Main/Main';
@@ -12,28 +12,22 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import './App.scss';
 
 import movieApi from '../../utils/MoviesApi';
+import {useSortedAndSearchedCards} from '../../utils/useCards'
 
 function App() {
-  const [wasARequest, setWasARequest] = useState(false);
   const [cards, setCards] = useState([]);
   const [isShort, setIsShort] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [limit, setLimit] = useState(9)
 
-  const sortedCards = useMemo(() => {
-    if (!isShort) {
-      return cards;
-    }
-    return cards.filter((card) => card.duration <= 40);
-  }, [isShort, cards]);
 
-  const sortedAndSearchedCards = useMemo(() => {
-    return sortedCards.filter((card) =>
-      card.nameRU.toLowerCase().includes(searchQuery.toLocaleLowerCase())
-    );
-  }, [searchQuery, sortedCards]);
+  const sortedAndSearchedCards = useSortedAndSearchedCards(cards, isShort, searchQuery);
 
-  if (wasARequest) {
+
+  
+  const fetchCards = () => {
+    setIsLoading(true);
     movieApi
       .getCards()
       .then((res) => setCards(res))
@@ -60,10 +54,11 @@ function App() {
                   setSearchQuery={setSearchQuery}
                   isShort={isShort}
                   setIsShort={setIsShort}
-                  wasARequest={wasARequest}
-                  setWasARequest={setWasARequest}
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
+                  fetchCards={fetchCards}
+                  limit={limit}
+                  setLimit={setLimit}
                 />
               }
             />
