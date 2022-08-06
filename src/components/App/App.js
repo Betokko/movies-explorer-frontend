@@ -20,11 +20,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(9)
-
-
   const sortedAndSearchedCards = useSortedAndSearchedCards(cards, isShort, searchQuery);
-
-
   
   const fetchCards = () => {
     setIsLoading(true);
