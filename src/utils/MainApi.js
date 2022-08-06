@@ -1,8 +1,6 @@
 const data = {
   url: 'https://api.moviexp.nomoredomains.xyz',
-  JWT:
-    localStorage.getItem('JWT') ||
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUwMmIwZmI0MzkyNDVlMWFiMTY3MjQiLCJpYXQiOjE2NTk3OTc0NDB9.au5qr_1hthiC0IERRTQXEI4MzzVGv0jEmi-UTUU7J7Q',
+  JWT: localStorage.getItem('JWT'),
 };
 
 class MainApi {

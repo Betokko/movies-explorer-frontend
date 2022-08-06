@@ -1,27 +1,25 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import {CurrentUserContext} from '../../context/CurrenUserContext'
 
 import "./Profile.scss";
 
 const Profile = () => {
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john@gmail.com",
-  });
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext)
 
   return (
     <main className="profile">
       <section className="profile__container">
         <div className="profile__items">
-          <h2 className="profile__title">Привет, {user.name}!</h2>
+          <h2 className="profile__title">Привет, {currentUser.name}!</h2>
           <label className="profile__items__label" htmlFor="name">
             {" "}
             <span>Имя</span>
             <input
               className="profile__items__input"
               id="name"
-              value={user.name}
-              onChange={(evt) => setUser({ ...user, name: evt.target.value })}
+              value={currentUser.name}
+              onChange={(evt) => setCurrentUser({ ...currentUser, name: evt.target.value })}
             />
           </label>
           <label className="profile__items__label" htmlFor="email">
@@ -30,8 +28,8 @@ const Profile = () => {
             <input
               className="profile__items__input"
               id="email"
-              value={user.email}
-              onChange={(evt) => setUser({ ...user, email: evt.target.value })}
+              value={currentUser.email}
+              onChange={(evt) => setCurrentUser({ ...currentUser, email: evt.target.value })}
             />
           </label>
         </div>
