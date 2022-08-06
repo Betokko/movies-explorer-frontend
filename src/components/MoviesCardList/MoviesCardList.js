@@ -11,7 +11,7 @@ const MoviesCardList = ({name, cards, limit, setLimit }) => {
            <MoviesCard name={name} card={card} key={card.id}/>
         ))}
       </ul>
-      { cards.length >= limit ? <input type="submit" value="Ещё" className="movies-card-list__button" onClick={() => setLimit(limit + 9)}/>: null}
+      { cards.length > limit ? <input type="submit" value="Ещё" className="movies-card-list__button" onClick={() => setLimit(limit + 9)}/>: null}
     </section>
   );
 };
