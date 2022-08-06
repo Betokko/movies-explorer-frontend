@@ -1,8 +1,7 @@
 .nav-tab {
   display: flex;
   align-items: center;
-  background-color: #073042;
-  color: #fff;
+  background-color: #fff;
   padding: 0 70px;
   height: 74px;
   @media (max-width: 1023px) {
@@ -34,7 +33,7 @@
     }
   
     &-signin {
-      color: #fff;
+      color: #000;
     }
   
     &-signup {

@@ -50,15 +50,7 @@
       display: flex;
       z-index: 100;
       @media (max-width: 1023px) {
-        &::before {
-          content: 'Главная';
-          left: 0;
-          right: 0;
-          padding-bottom: 28px;
-          text-align: center;
-          font-style: 18px;
-          font-weight: 500;
-        }
+
         display: flex;
         flex-direction: column;
         position: absolute;

@@ -4,7 +4,7 @@ import validator from 'validator';
 
 import './Register.scss';
 
-const Register = () => {
+const Register = ({ onRegister }) => {
   const {
     register,
     handleSubmit,
@@ -13,8 +13,8 @@ const Register = () => {
   } = useForm({ mode: 'onChange' });
 
   const onSubmit = (data) => {
-    console.log(data);
     reset();
+    onRegister(data);
   };
 
   return (

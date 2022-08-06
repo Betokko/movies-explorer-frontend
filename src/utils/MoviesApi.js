@@ -10,5 +10,5 @@ class MovieApi {
     });
   }
 }
-const movieApi = new MovieApi();
-export default movieApi;
+
+export const movieApi = new MovieApi();
