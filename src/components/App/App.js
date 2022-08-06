@@ -76,9 +76,11 @@ const App = () => {
         <Routes>
           <Route path="/signup" element={<Register onRegister={onRegister} />} />
           <Route path="/signin" element={<Login onLogin={onLogin} />} />
+          <Route element={<Layout isLoggedIn={isLoggedIn} />}>
+            <Route path="/" element={<Main />} />
+          </Route>
           <Route path='/' element={<ProtectedRoute  isLoggedIn={isLoggedIn} /> }>
             <Route element={<Layout isLoggedIn={isLoggedIn} />}>
-              <Route path="/" element={<Main />} />
               <Route path="/movies" element={
                   <Movies
                     cards={sortedAndSearchedCards}
