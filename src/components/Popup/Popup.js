@@ -1,12 +1,19 @@
 import styles from './Popup.module.css'
 
-const Popup = ({children, visible, setVisible, setError}) => {
+const Popup = ({children, setVisible, setPopupMessage}) => {
+
   const classes = [styles.popup]
-  if (visible) {
+  if (setVisible) {
     classes.push(styles.active)
   }
+
+  const handleClick = () => { 
+    setVisible()
+    setPopupMessage('')
+   }
+
   return (
-    <div className={classes.join(' ')} onClick={() => {setError(''); setVisible(false)}}>
+    <div className={classes.join(' ')} onClick={handleClick}>
       <div className={styles.content} onClick={(evt) => evt.stopPropagation()}>
         {children}
       </div>

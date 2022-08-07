@@ -19,6 +19,7 @@ import { CurrentUserContext } from '../../hoc/CurrentUserContext';
 import './App.scss';
 
 const App = () => {
+  const [currentUser, setCurrentUser] = useState({ email: '', name: '' });
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
   const [isShort, setIsShort] = useState(false);
@@ -27,11 +28,10 @@ const App = () => {
   const [limit, setLimit] = useState(0);
   const sortedAndSearchedCards = useSortedAndSearchedCards( cards, isShort, searchQuery );
   const savedSortedAndSearchedCards = useSortedAndSearchedCards( savedCards, isShort, searchQuery );
-  const [error, setError] = useState('');
-  const [modal, setModal] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [popupVisible, setPopupVisible] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState({ email: '', name: '' });
   // const [width, setWidth]   = useState(window.innerWidth);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const App = () => {
     mainApi
       .register(data)
       .then(() => logIn({ email: data.email, password: data.password }))
-      .catch((err) => setError(err));
+      .catch((err) => setPopupMessage(err));
   };
 
   const logIn = (data) => {
@@ -88,8 +88,8 @@ const App = () => {
           .checkValidityToken(localStorage.getItem('JWT'))
           .then((res) => setCurrentUser(res));
       })
-      .catch((err) => setError(err));
-      getSavedCards()
+      .catch((err) => setPopupMessage(err));
+    getSavedCards();
   };
 
   const logOut = () => {
@@ -102,7 +102,7 @@ const App = () => {
     mainApi
       .updateUser(data)
       .then(() => setCurrentUser(data))
-      .catch((err) => setError(err));
+      .catch((err) => setPopupMessage(err));
   };
 
   const saveCard = (data) => {
@@ -123,16 +123,19 @@ const App = () => {
   };
 
   const removeCard = (card) => {
-    console.log(card)
     mainApi.removeMovie(card._id).then(res => console.log(res))
     setSavedCards(savedCards => savedCards.filter((c) => (c._id !== card._id ? c : '')))
   }
+
+  const togglePopup = (popupVisible) => { 
+    setPopupVisible(!popupVisible)
+   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="content">
         <div className="wrapper">
-          {error ? <Popup visible={true} setVisible={setModal} setError={setError}>{error} 💔 </Popup> : null}
+          { popupMessage ? <Popup setVisible={togglePopup} setPopupMessage={setPopupMessage}>{popupMessage} 💔 </Popup> : null }
           <Routes>
             <Route path="/signup" element={<Register registration={registration} />} />
             <Route path="/signin" element={<Login logIn={logIn} />} />
