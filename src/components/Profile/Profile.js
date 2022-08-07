@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useForm } from 'react-hook-form';
 import validator from 'validator';
 
@@ -7,7 +7,7 @@ import { CurrentUserContext } from '../../hoc/CurrentUserContext'
 import "./Profile.scss";
 
 const Profile = ({logOut, editProfile}) => {
-  const {currentUser} = useContext(CurrentUserContext)
+  const currentUser = useContext(CurrentUserContext)
 
   const {
     register,

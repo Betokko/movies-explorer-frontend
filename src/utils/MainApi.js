@@ -39,7 +39,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  getUserInfo() {
+  getUser() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
@@ -48,7 +48,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  updateUserInfo(data) {
+  updateUser(data) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -69,7 +69,7 @@ class MainApi {
   }
   
   addMovie(data) {
-    return fetch(`${this._url}/users/me`, {
+    return fetch(`${this._url}/movies`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,8 +79,8 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  removeMovie(data) {
-    return fetch(`${this._url}/users/me/${data._id}`, {
+  removeMovie(id) {
+    return fetch(`${this._url}/movies/${id}`, {
       method: 'DELETE',
       headers: {
         authorization: this._authorization,
@@ -95,5 +95,7 @@ class MainApi {
     return Promise.reject(`Ошибка ${res.status}`);
   }
 }
+
+
 
 export const mainApi = new MainApi(data);

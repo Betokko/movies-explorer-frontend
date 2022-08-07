@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Main from '../Main/Main';
@@ -14,31 +14,29 @@ import Popup from '../Popup/Popup';
 import { movieApi } from '../../utils/MoviesApi';
 import { mainApi } from '../../utils/MainApi';
 import { useSortedAndSearchedCards } from '../../utils/useCards';
-
-import {ProtectedRoute} from '../../hoc/ProtectedRoute';
+import { ProtectedRoute } from '../../hoc/ProtectedRoute';
 import { CurrentUserContext } from '../../hoc/CurrentUserContext';
-
 import './App.scss';
 
 const App = () => {
   const [cards, setCards] = useState([]);
-  const [currentUser, setCurrentUser] = useState({})
   const [savedCards, setSavedCards] = useState([]);
   const [isShort, setIsShort] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(0);
   const sortedAndSearchedCards = useSortedAndSearchedCards( cards, isShort, searchQuery );
+  const savedSortedAndSearchedCards = useSortedAndSearchedCards( savedCards, isShort, searchQuery );
   const [error, setError] = useState('');
   const [modal, setModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-
+  const [currentUser, setCurrentUser] = useState({ email: '', name: '' });
   // const [width, setWidth]   = useState(window.innerWidth);
-  
+
   useEffect(() => {
-    checkToken()
-  }, [])
+    checkToken();
+  }, []);
 
   const fetchCards = () => {
     setIsLoading(true);
@@ -49,79 +47,127 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
+  const getSavedCards = () => {
+    mainApi.getMovies()
+    .then(res => {
+      setSavedCards(res)
+    })
+  };
 
-  const checkToken = () => { 
+  const checkToken = () => {
     const JWT = localStorage.getItem('JWT');
     if (JWT) {
-      mainApi.checkValidityToken(JWT)
-      .then(() => setIsLoggedIn(true))
-      .then(() => navigate('/movies'))
-      .then(() => mainApi.getUserInfo().then(res => setCurrentUser(res)))
+      mainApi
+        .checkValidityToken(JWT)
+        .then(() => setIsLoggedIn(true))
+        .then(() => navigate('/movies'))
+        .then(() => mainApi.getUser()
+          .then((res) => {
+            setCurrentUser(res);
+          })
+        );
     }
-   }
+  };
 
   const registration = (data) => {
     mainApi
       .register(data)
-      .then(() => logIn({email: data.email, password: data.password}))
-      .catch((err) => setError(err))
+      .then(() => logIn({ email: data.email, password: data.password }))
+      .catch((err) => setError(err));
   };
 
   const logIn = (data) => {
     mainApi
       .login(data)
       .then((res) => {
-        localStorage.setItem('JWT', res.token)
-        mainApi.checkValidityToken(localStorage.getItem('JWT'))
-          .then(res => setCurrentUser(res))
-        setIsLoggedIn(true)
-        navigate('/movies')
+        localStorage.setItem('JWT', res.token);
+        setIsLoggedIn(true);
+        navigate('/movies');
+        mainApi
+          .checkValidityToken(localStorage.getItem('JWT'))
+          .then((res) => setCurrentUser(res));
       })
       .catch((err) => setError(err));
   };
 
   const logOut = () => {
     localStorage.removeItem('JWT');
-    setIsLoggedIn(false)
-    setCurrentUser({ email: '', name: '' })
+    setIsLoggedIn(false);
+    setCurrentUser({ name: '', email: '' });
   };
 
   const editProfile = (data) => {
     mainApi
-      .updateUserInfo(data)
-      .then(res => setCurrentUser(res))
-      .catch((err) => setError(err))
+      .updateUser(data)
+      .then(() => setCurrentUser(data))
+      .catch((err) => setError(err));
+  };
+
+  const saveCard = (data) => {
+    const card = {
+      country: data.country,
+      director: data.director,
+      duration: data.duration,
+      year: data.year,
+      description: data.description,
+      image: 'https://api.nomoreparties.co/'+data.image.url,
+      trailerLink: data.trailerLink,
+      nameRU: data.nameRU,
+      nameEN: data.nameEN,
+      thumbnail: 'https://api.nomoreparties.co/'+data.image.formats.thumbnail.url,
+      movieId: data.id,
+    }
+    mainApi.addMovie(card).then((res) => console.log(res));
+  };
+
+  const removeCard = (card) => {
+    console.log(card)
+    mainApi.removeMovie(card._id).then(res => console.log(res))
   }
 
   return (
-    <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
+    <CurrentUserContext.Provider value={currentUser}>
       <div className="content">
         <div className="wrapper">
-          {error ? <Popup visible={true} setVisible={setModal} setError={setError}> {error} 💔</Popup> : null}
+          {error ? <Popup visible={true} setVisible={setModal} setError={setError}>{error} 💔 </Popup> : null}
           <Routes>
             <Route path="/signup" element={<Register registration={registration} />} />
             <Route path="/signin" element={<Login logIn={logIn} />} />
             <Route element={<Layout isLoggedIn={isLoggedIn} />}>
               <Route path="/" element={<Main />} />
             </Route>
-            <Route path='/' element={<ProtectedRoute  isLoggedIn={isLoggedIn} /> }>
+            <Route path="/" element={<ProtectedRoute isLoggedIn={isLoggedIn} />} >
               <Route element={<Layout isLoggedIn={isLoggedIn} />}>
                 <Route path="/movies" element={
                     <Movies
                       cards={sortedAndSearchedCards}
+                      fetchCards={fetchCards}
                       searchQuery={searchQuery}
                       setSearchQuery={setSearchQuery}
                       isShort={isShort}
                       setIsShort={setIsShort}
                       isLoading={isLoading}
                       setIsLoading={setIsLoading}
-                      fetchCards={fetchCards}
                       limit={limit}
                       setLimit={setLimit}
-                    /> 
-                  } />
-                <Route path="/saved-movies" element={<SavedMovies cards={cards} />} />
-                <Route path="/profile" element={<Profile logOut={logOut} editProfile={editProfile}/>} />
+                      saveCard={saveCard} 
+                    /> } />
+                <Route path="/saved-movies" element={
+                    <SavedMovies
+                      cards={savedSortedAndSearchedCards}
+                      getSavedCards={getSavedCards}
+                      savedCards={savedCards}
+                      searchQuery={searchQuery}
+                      setSearchQuery={setSearchQuery}
+                      isShort={isShort}
+                      setIsShort={setIsShort}
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                      limit={limit}
+                      setLimit={setLimit}
+                      removeCard={removeCard} 
+                    /> } />
+                <Route path="/profile" element={ <Profile logOut={logOut} editProfile={editProfile} /> } />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Route>

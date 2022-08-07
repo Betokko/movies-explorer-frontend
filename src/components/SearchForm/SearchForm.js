@@ -1,10 +1,8 @@
 import { useRef, useState } from 'react';
-
 import { useForm } from 'react-hook-form';
-
 import './SearchForm.scss';
 
-const SearchForm = ({ setSearchQuery, setIsShort, fetchCards,  setLimit, setWasRequest }) => {
+const SearchForm = ({ setSearchQuery, setIsShort, fetchCards,  setLimit, setWasRequest, getSavedCards }) => {
   const {
     register,
     formState: { errors },
@@ -14,20 +12,20 @@ const SearchForm = ({ setSearchQuery, setIsShort, fetchCards,  setLimit, setWasR
   const onSubmit = (data) => {
     reset();
     setSearchQuery(data.search);
-    fetchCards()
-    setLimit(9)
-    setWasRequest(true)
-    setRequest(data.search)
+    if (window.location.pathname === '/movies') {
+      fetchCards() 
+      setLimit(9)
+      setWasRequest(true)
+      setRequest(data.search)
+    }
   };
   const [request, setRequest] = useState('')
   const checkbox = useRef()
 
+
   return (
     <section className="search-form">
-      <form
-        className="search-form__container"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="search-form__container" onSubmit={handleSubmit(onSubmit)} >
         <input
           type="text"
           placeholder={request ? 'Результаты поиска: '+request : 'Фильм'}

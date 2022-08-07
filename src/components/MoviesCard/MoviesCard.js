@@ -1,25 +1,50 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 import './MoviesCard.scss';
 
-const MoviesCard = ({ name, card }) => {
+const MoviesCard = ({
+  name,
+  card,
+  saveCard,
+  removeCard,
+}) => {
   const hours = Math.trunc(card.duration / 60);
   const minutes = card.duration % 60;
-  const [isLike, setIsLike] = useState(false)
+  const [isLike, setIsLike] = useState(false);
+
+  const handleSaveClick = () => {
+    setIsLike(!isLike);
+    saveCard(card);
+  };
+  const handleRemoveClick = () => {
+    setIsLike(!isLike);
+    removeCard(card)
+  };
 
   return (
     <li className="movie-card">
-      { !isLike ? <button className="movie-card__save" onClick={() => setIsLike(!isLike)}>{name}</button> : null}
-      { isLike ? <button className="movie-card__checked" onClick={() => setIsLike(!isLike)}></button> : null}
+      {!isLike 
+      ? <button 
+        className="movie-card__save" 
+        onClick={ window.location.pathname === '/movies' ? handleSaveClick : handleRemoveClick} 
+        > {name} </button> 
+      : null}
+      {isLike ? <button className="movie-card__checked"></button> : null}
       <div className="movie-card__main">
         <img
           className="movie-card__main__img"
-          src={`https://api.nomoreparties.co/${card.image.url}`}
+          src={window.location.pathname === '/movies' ? `https://api.nomoreparties.co/${card.image.url}` : card.image}
           alt={card.nameRU}
         />
       </div>
       <div className="movie-card__about">
-        <a href={card.trailerLink} target='blanc' className="movie-card__about__name">{card.nameRU}</a>
+        <a
+          href={card.trailerLink}
+          target="blanc"
+          className="movie-card__about__name"
+        >
+          {card.nameRU}
+        </a>
         <div className="movie-card__about__duration">
           {hours ? hours + 'ч' : ''}&nbsp;{minutes ? minutes + 'м' : ''}
         </div>
