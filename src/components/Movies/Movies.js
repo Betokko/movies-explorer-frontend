@@ -13,6 +13,7 @@ const Movies = ({
   limit,
   setLimit,
   saveCard,
+  removeCard,
 }) => {
   const [wasRequest, setWasRequest] = useState(false);
   return (
@@ -34,6 +35,7 @@ const Movies = ({
             limit={limit}
             setLimit={setLimit}
             saveCard={saveCard}
+            removeCard={removeCard}
           />
       }
       {cards.length === 0 && wasRequest ? <div style={{ textAlign: 'center' }}>Ничего не найдено</div> : null} </main>

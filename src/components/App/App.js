@@ -37,6 +37,7 @@ const App = () => {
   useEffect(() => {
     checkToken();
   }, []);
+  
 
   const fetchCards = () => {
     setIsLoading(true);
@@ -88,6 +89,7 @@ const App = () => {
           .then((res) => setCurrentUser(res));
       })
       .catch((err) => setError(err));
+      getSavedCards()
   };
 
   const logOut = () => {
@@ -117,12 +119,13 @@ const App = () => {
       thumbnail: 'https://api.nomoreparties.co/'+data.image.formats.thumbnail.url,
       movieId: data.id,
     }
-    mainApi.addMovie(card).then((res) => console.log(res));
+    mainApi.addMovie(card).then((res) => setSavedCards([...savedCards, res]));
   };
 
   const removeCard = (card) => {
     console.log(card)
     mainApi.removeMovie(card._id).then(res => console.log(res))
+    setSavedCards(savedCards => savedCards.filter((c) => (c._id !== card._id ? c : '')))
   }
 
   return (
@@ -151,6 +154,7 @@ const App = () => {
                       limit={limit}
                       setLimit={setLimit}
                       saveCard={saveCard} 
+                      removeCard={removeCard}
                     /> } />
                 <Route path="/saved-movies" element={
                     <SavedMovies

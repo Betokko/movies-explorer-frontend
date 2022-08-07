@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './SearchForm.scss';
 
-const SearchForm = ({ setSearchQuery, setIsShort, fetchCards,  setLimit, setWasRequest, getSavedCards }) => {
+const SearchForm = ({ setSearchQuery, setIsShort, fetchCards,  setLimit, setWasRequest }) => {
   const {
     register,
     formState: { errors },

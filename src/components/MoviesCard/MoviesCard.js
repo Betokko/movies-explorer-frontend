@@ -29,7 +29,7 @@ const MoviesCard = ({
         onClick={ window.location.pathname === '/movies' ? handleSaveClick : handleRemoveClick} 
         > {name} </button> 
       : null}
-      {isLike ? <button className="movie-card__checked"></button> : null}
+      {isLike ? <button className="movie-card__checked" onClick={handleRemoveClick}></button> : null}
       <div className="movie-card__main">
         <img
           className="movie-card__main__img"

@@ -8,7 +8,7 @@ const MoviesCardList = ({name, cards, limit, setLimit, saveCard, removeCard }) =
     <section className="movies-card-list">
       <ul className="movies-card-list__items">
       {window.location.pathname === '/movies' 
-        ? cards.slice(0, limit).map((card) => <MoviesCard name={name} card={card} key={card.id} saveCard={saveCard} />)
+        ? cards.slice(0, limit).map((card) => <MoviesCard name={name} card={card} key={card.id} saveCard={saveCard} removeCard={removeCard} />)
         : cards.map((card) => <MoviesCard name={name} card={card} key={card._id} removeCard={removeCard}/>)
       }
       </ul>
