@@ -4,7 +4,7 @@ import validator from 'validator';
 
 import './Register.scss';
 
-const Register = ({ onRegister }) => {
+const Register = ({ registration }) => {
   const {
     register,
     handleSubmit,
@@ -14,7 +14,7 @@ const Register = ({ onRegister }) => {
 
   const onSubmit = (data) => {
     reset();
-    onRegister(data);
+    registration(data);
   };
 
   return (

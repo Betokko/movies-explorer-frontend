@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Main from '../Main/Main';
@@ -14,14 +14,15 @@ import Popup from '../Popup/Popup';
 import { movieApi } from '../../utils/MoviesApi';
 import { mainApi } from '../../utils/MainApi';
 import { useSortedAndSearchedCards } from '../../utils/useCards';
+
 import {ProtectedRoute} from '../../hoc/ProtectedRoute';
-import { CurrentUserContext } from '../../context/CurrenUserContext';
+import { CurrentUserContext } from '../../hoc/CurrentUserContext';
 
 import './App.scss';
 
 const App = () => {
   const [cards, setCards] = useState([]);
-  const [currentUser, setCurrentUser] = useState({ email: '', name: '' });
+  const [currentUser, setCurrentUser] = useState({})
   const [savedCards, setSavedCards] = useState([]);
   const [isShort, setIsShort] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,14 +40,15 @@ const App = () => {
     checkToken()
   }, [])
 
-    const fetchCards = () => {
-      setIsLoading(true);
-      movieApi
-        .getCards()
-        .then((res) => setCards(res))
-        .then(() => setIsLoading(false))
-        .catch((err) => console.log(err));
-    };
+  const fetchCards = () => {
+    setIsLoading(true);
+    movieApi
+      .getCards()
+      .then((res) => setCards(res))
+      .then(() => setIsLoading(false))
+      .catch((err) => console.log(err));
+  };
+
 
   const checkToken = () => { 
     const JWT = localStorage.getItem('JWT');
@@ -58,34 +60,47 @@ const App = () => {
     }
    }
 
-  const onRegister = (data) => {
+  const registration = (data) => {
     mainApi
       .register(data)
-      .then(() => onLogin({email: data.email, password: data.password}))
-      .then(() => mainApi.getUserInfo().then(res => console.log(res)))
-      .catch((err) => setError(err));
+      .then(() => logIn({email: data.email, password: data.password}))
+      .catch((err) => setError(err))
   };
 
-  const onLogin = (data) => {
+  const logIn = (data) => {
     mainApi
       .login(data)
       .then((res) => {
         localStorage.setItem('JWT', res.token)
-        setIsLoggedIn(true);
-        navigate('/movies');
+        mainApi.checkValidityToken(localStorage.getItem('JWT'))
+          .then(res => setCurrentUser(res))
+        setIsLoggedIn(true)
+        navigate('/movies')
       })
-      .then((res => console.log(data)))
       .catch((err) => setError(err));
   };
+
+  const logOut = () => {
+    localStorage.removeItem('JWT');
+    setIsLoggedIn(false)
+    setCurrentUser({ email: '', name: '' })
+  };
+
+  const editProfile = (data) => {
+    mainApi
+      .updateUserInfo(data)
+      .then(res => setCurrentUser(res))
+      .catch((err) => setError(err))
+  }
 
   return (
     <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
       <div className="content">
         <div className="wrapper">
-          {/* {error ? <Popup visible={true} setVisible={setModal} setError={setError}> {error} 💔</Popup> : null} */}
+          {error ? <Popup visible={true} setVisible={setModal} setError={setError}> {error} 💔</Popup> : null}
           <Routes>
-            <Route path="/signup" element={<Register onRegister={onRegister} />} />
-            <Route path="/signin" element={<Login onLogin={onLogin} />} />
+            <Route path="/signup" element={<Register registration={registration} />} />
+            <Route path="/signin" element={<Login logIn={logIn} />} />
             <Route element={<Layout isLoggedIn={isLoggedIn} />}>
               <Route path="/" element={<Main />} />
             </Route>
@@ -106,7 +121,7 @@ const App = () => {
                     /> 
                   } />
                 <Route path="/saved-movies" element={<SavedMovies cards={cards} />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile" element={<Profile logOut={logOut} editProfile={editProfile}/>} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Route>

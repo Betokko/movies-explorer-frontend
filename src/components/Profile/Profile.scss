@@ -28,6 +28,7 @@
    
 
         &__label {
+          cursor: text;
           display: flex;
           padding: 16px 0;
           &:last-child{
@@ -42,9 +43,19 @@
             border: none;
             outline: none;
         }
+        &__error {
+          font-size: 10px;
+          line-height: 12px;
+          color: #FF3055;
+          position: relative;
+          top: -12px;
+        }
       }
 
-      &__links {
+
+
+      &__buttons {
+        
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -52,9 +63,18 @@
         transition: opacity .2s;
   
       }
-      &__link {
-        text-decoration: none;
+      &__button {
+        cursor: pointer;
+        background-color: #fff;
         font-size: 13px;
+        border: none;
+        &:disabled {
+          cursor: auto;
+          color: #A0A0A0;
+          &:hover {
+            opacity: 1;
+          }
+        }
         &-edit {
           color: #000;
           &:hover {
@@ -62,6 +82,7 @@
           }
         }
         &-logout {
+
           color: #FF3055;
           margin-top: 16px;
           &:hover {

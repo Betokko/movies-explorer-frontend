@@ -5,7 +5,7 @@ import validator from "validator";
 
 import "../Register/Register.scss";
 
-const Login = ({onLogin}) => {
+const Login = ({logIn}) => {
   const {
     register,
     handleSubmit,
@@ -15,7 +15,7 @@ const Login = ({onLogin}) => {
 
   const onSubmit = (data) => {
     reset();
-    onLogin(data)
+    logIn(data)
   };
 
   return (
