@@ -35,10 +35,9 @@ const Movies = ({
         setWasRequest={setWasRequest}
         isMoviePage={isMoviePage}
       />
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <MoviesCardList
+      {isLoading 
+        ? <Preloader /> 
+        : <MoviesCardList
           name="Сохранить"
           filteredCards={filteredCards}
           limit={limit}
@@ -46,8 +45,8 @@ const Movies = ({
           saveCard={saveCard}
           removeCard={removeCard}
           isMoviePage={isMoviePage}
-        />
-      )}
+          />
+      }
       {filteredCards.length === 0 && wasRequest 
         ? <div style={{ textAlign: "center" }}>Ничего не найдено</div> 
         : null
