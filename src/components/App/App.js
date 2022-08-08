@@ -14,6 +14,7 @@ import Popup from "../Popup/Popup";
 import { movieApi } from "../../utils/MoviesApi";
 import { mainApi } from "../../utils/MainApi";
 import { useShortedAndSearchedCards } from "../../utils/useCards";
+import { useLikedShortedAndSearchedCards } from "../../utils/useCards";
 import { ProtectedRoute } from "../../hoc/ProtectedRoute";
 import { CurrentUserContext } from "../../hoc/CurrentUserContext";
 import "./App.scss";
@@ -22,21 +23,22 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({ email: "", name: "" });
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
-  const [filter, setFilter] = useState({query:'', short: false})
+  const [filter, setFilter] = useState({ query: "", short: false, names: [''] });
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(0);
-  const filteredCards = useShortedAndSearchedCards(cards, filter)
-  const filteredSavedCards = useShortedAndSearchedCards(savedCards, filter);
   const [popupMessage, setPopupMessage] = useState("");
   const [popupVisible, setPopupVisible] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  const filteredCards = useShortedAndSearchedCards(cards, filter);
+  const filteredSavedCards = useShortedAndSearchedCards(savedCards, filter);
+
   useEffect(() => {
     checkToken();
   }, []);
 
-  const fetchCards = () => {
+  const getCards = () => {
     setIsLoading(true);
     movieApi
       .getCards()
@@ -46,9 +48,12 @@ const App = () => {
   };
 
   const getSavedCards = () => {
-    mainApi.getMovies().then((res) => {
-      setSavedCards(res);
-    });
+    setIsLoading(true);
+    mainApi
+      .getMovies()
+      .then((res) => setSavedCards(res))
+      .then(() => setIsLoading(false))
+      .catch((err) => console.log(err));
   };
 
   const checkToken = () => {
@@ -61,6 +66,7 @@ const App = () => {
         .then(() =>
           mainApi.getUser().then((res) => {
             setCurrentUser(res);
+            getCards()
           })
         );
     }
@@ -116,11 +122,13 @@ const App = () => {
         "https://api.nomoreparties.co/" + data.image.formats.thumbnail.url,
       movieId: data.id,
     };
-    mainApi.addMovie(card).then((res) => setSavedCards([...savedCards, res]));
+    mainApi
+      .addMovie(card)
+      .then((res) => setSavedCards([...savedCards, res]));
   };
 
   const removeCard = (card) => {
-    mainApi.removeMovie(card._id).then((res) => console.log(res));
+    mainApi.removeMovie(card._id)
     setSavedCards((savedCards) =>
       savedCards.filter((c) => (c._id !== card._id ? c : ""))
     );
@@ -160,7 +168,7 @@ const App = () => {
                       setIsLoading={setIsLoading}
                       limit={limit}
                       setLimit={setLimit}
-                      fetchCards={fetchCards}
+                      getCards={getCards}
                       saveCard={saveCard}
                       removeCard={removeCard}
                     />
@@ -170,15 +178,16 @@ const App = () => {
                   path="/saved-movies"
                   element={
                     <SavedMovies
-                      filteredSavedCards={filteredSavedCards}
+                      filteredCards={filteredSavedCards}
                       filter={filter}
                       setFilter={setFilter}
-                      getSavedCards={getSavedCards}
-                      savedCards={savedCards}
                       isLoading={isLoading}
                       setIsLoading={setIsLoading}
                       limit={limit}
                       setLimit={setLimit}
+                      getCards={getCards}
+                      getSavedCards={getSavedCards}
+                      saveCard={saveCard}
                       removeCard={removeCard}
                     />
                   }

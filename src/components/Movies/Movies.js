@@ -9,34 +9,28 @@ const Movies = ({
   filter,
   setFilter,
   isLoading,
-  fetchCards,
+  getCards,
   limit,
   setLimit,
   saveCard,
   removeCard,
 }) => {
   const [wasRequest, setWasRequest] = useState(false);
-  const [isMoviePage, setIsMoviePage] = useState(false);
-
-  useEffect(() => {
-    if (window.location.pathname === "/movies") {
-      setIsMoviePage(true);
-    }
-  }, []);
+  const isMoviePage = window.location.pathname === "/movies";
 
   return (
     <main>
       <SearchForm
         filter={filter}
         setFilter={setFilter}
-        fetchCards={fetchCards}
+        getCards={getCards}
         limit={limit}
         setLimit={setLimit}
         setWasRequest={setWasRequest}
         isMoviePage={isMoviePage}
       />
       {isLoading 
-        ? <Preloader /> 
+        ? <Preloader />
         : <MoviesCardList
           name="Сохранить"
           filteredCards={filteredCards}
@@ -45,10 +39,10 @@ const Movies = ({
           saveCard={saveCard}
           removeCard={removeCard}
           isMoviePage={isMoviePage}
-          />
+        />
       }
       {filteredCards.length === 0 && wasRequest 
-        ? <div style={{ textAlign: "center" }}>Ничего не найдено</div> 
+        ? <div style={{ textAlign: "center" }}>Ничего не найдено</div>
         : null
       }
     </main>
