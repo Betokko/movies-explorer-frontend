@@ -20,10 +20,10 @@ export const useShortedAndSearchedCards = (cards, filter) => {
   return shortedAndSearchedCards;
 };
 
-export const useLikedShortedAndSearchedCards = (cards, filter) => {
-  const shortedAndSearchedCards = useShortedAndSearchedCards(cards, filter);
-  const likedShortedAndSearchedCards = useMemo(() => {
-    return shortedAndSearchedCards.filter((card) => !filter.names.includes(card.nameEN))
-  }, [shortedAndSearchedCards])
-  return likedShortedAndSearchedCards;
-}
+// export const useLikedShortedAndSearchedCards = (cards, filter) => {
+//   const shortedAndSearchedCards = useShortedAndSearchedCards(cards, filter);
+//   const likedShortedAndSearchedCards = useMemo(() => {
+//     return shortedAndSearchedCards.filter((card) => !filter.names.includes(card.nameEN))
+//   }, [shortedAndSearchedCards])
+//   return likedShortedAndSearchedCards;
+// }

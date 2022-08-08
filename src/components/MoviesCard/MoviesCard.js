@@ -7,6 +7,7 @@ const MoviesCard = ({
   card,
   saveCard,
   removeCard,
+  isMoviePage
 }) => {
   const hours = Math.trunc(card.duration / 60);
   const minutes = card.duration % 60;
@@ -23,6 +24,7 @@ const MoviesCard = ({
 
   return (
     <li className="movie-card">
+      {console.log(isMoviePage)}
       {!isLike 
       ? <button 
         className="movie-card__save" 

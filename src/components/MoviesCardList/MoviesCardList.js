@@ -24,6 +24,7 @@ const MoviesCardList = ({
                   key={card.id}
                   saveCard={saveCard}
                   removeCard={removeCard}
+                  isMoviePage={isMoviePage}
                 />
               ))
           : filteredCards.map((card) => (
@@ -32,6 +33,7 @@ const MoviesCardList = ({
                 card={card}
                 key={card._id || card.id}
                 removeCard={removeCard}
+                isMoviePage={isMoviePage}
               />
             ))}
       </ul>

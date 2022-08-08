@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -18,6 +19,8 @@ import { useLikedShortedAndSearchedCards } from "../../utils/useCards";
 import { ProtectedRoute } from "../../hoc/ProtectedRoute";
 import { CurrentUserContext } from "../../hoc/CurrentUserContext";
 import "./App.scss";
+
+import { login } from '../../utils/Auth'
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({ email: "", name: "" });
@@ -80,18 +83,20 @@ const App = () => {
   };
 
   const logIn = (data) => {
-    mainApi
-      .login(data)
-      .then((res) => {
-        localStorage.setItem("JWT", res.token);
-        setIsLoggedIn(true);
-        navigate("/movies");
-        mainApi
-          .checkValidityToken(localStorage.getItem("JWT"))
-          .then((res) => setCurrentUser(res));
-      })
-      .catch((err) => setPopupMessage(err));
-    getSavedCards();
+    console.log(data)
+    login(data)
+    // mainApi
+    //   .login(data)
+    //   .then((res) => {
+    //     localStorage.setItem("JWT", res.token);
+    //     setIsLoggedIn(true);
+    //     navigate("/movies");
+    //     mainApi
+    //       .checkValidityToken(localStorage.getItem("JWT"))
+    //       .then((res) => setCurrentUser(res));
+    //   })
+    //   .catch((err) => setPopupMessage(err));
+    // getSavedCards();
   };
 
   const logOut = () => {
