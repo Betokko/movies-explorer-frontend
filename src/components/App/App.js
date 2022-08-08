@@ -1,45 +1,61 @@
-import { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { Children, useEffect, useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
-import Main from "../Main/Main";
-import Movies from "../Movies/Movies";
-import SavedMovies from "../SavedMovies/SavedMovies";
-import Register from "../Register/Register";
-import Login from "../Login/Login";
-import Profile from "../Profile/Profile";
-import Layout from "../Layout/Layout";
-import PageNotFound from "../PageNotFound/PageNotFound";
-import Popup from "../Popup/Popup";
+import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
+import Profile from '../Profile/Profile';
+import Layout from '../Layout/Layout';
+import PageNotFound from '../PageNotFound/PageNotFound';
+import Popup from '../Popup/Popup';
 
-import { movieApi } from "../../utils/MoviesApi";
-import { mainApi } from "../../utils/MainApi";
-import { useShortedAndSearchedCards } from "../../utils/useCards";
-import { useLikedShortedAndSearchedCards } from "../../utils/useCards";
-import { ProtectedRoute } from "../../hoc/ProtectedRoute";
-import { CurrentUserContext } from "../../hoc/CurrentUserContext";
-import "./App.scss";
+import { movieApi } from '../../utils/MoviesApi';
+import { mainApi } from '../../utils/MainApi';
+import { useShortedAndSearchedCards } from '../../utils/useCards';
+import { useLikedShortedAndSearchedCards } from '../../utils/useCards';
+import { ProtectedRoute } from '../../hoc/ProtectedRoute';
+import { CurrentUserContext } from '../../hoc/CurrentUserContext';
+import './App.scss';
 
-import { login } from '../../utils/Auth'
+import { auth } from '../../utils/Auth';
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState({ email: "", name: "" });
+  const [currentUser, setCurrentUser] = useState({ email: '', name: '' });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
-  const [filter, setFilter] = useState({ query: "", short: false, names: [''] });
+  const [filter, setFilter] = useState({
+    query: '',
+    short: false,
+    names: [''],
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(0);
-  const [popupMessage, setPopupMessage] = useState("");
+  const [popupMessage, setPopupMessage] = useState('');
   const [popupVisible, setPopupVisible] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const filteredCards = useShortedAndSearchedCards(cards, filter);
   const filteredSavedCards = useShortedAndSearchedCards(savedCards, filter);
 
   useEffect(() => {
-    checkToken();
+    if (localStorage.getItem('JWT')) {
+      mainApi.checkJWT(localStorage.getItem('JWT')).then(() => {
+        setIsLoggedIn(true);
+        navigate('/');
+      });
+    }
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem('JWT')) {
+      mainApi.checkJWT(localStorage.getItem('JWT')).then((res) => {
+        setCurrentUser(res);
+      });
+    }
+  }, [isLoggedIn]);
 
   const getCards = () => {
     setIsLoading(true);
@@ -59,57 +75,42 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
-  const checkToken = () => {
-    const JWT = localStorage.getItem("JWT");
-    if (JWT) {
-      mainApi
-        .checkValidityToken(JWT)
-        .then(() => setIsLoggedIn(true))
-        .then(() => navigate("/movies"))
-        .then(() =>
-          mainApi.getUser().then((res) => {
-            setCurrentUser(res);
-            getCards()
-          })
-        );
-    }
-  };
-
   const registration = (data) => {
-    mainApi
-      .register(data)
-      .then(() => logIn({ email: data.email, password: data.password }))
-      .catch((err) => setPopupMessage(err));
+    const loginData = { email: data.email, password: data.password };
+    auth.registration(data)
+      .then(() => logIn(loginData))
+      .then(() => navigate('/'))
+    
   };
 
   const logIn = (data) => {
-    console.log(data)
-    login(data)
-    // mainApi
-    //   .login(data)
-    //   .then((res) => {
-    //     localStorage.setItem("JWT", res.token);
-    //     setIsLoggedIn(true);
-    //     navigate("/movies");
-    //     mainApi
-    //       .checkValidityToken(localStorage.getItem("JWT"))
-    //       .then((res) => setCurrentUser(res));
-    //   })
-    //   .catch((err) => setPopupMessage(err));
-    // getSavedCards();
+    auth.login(data).then((res) => {
+      localStorage.setItem('JWT', res.token);
+      setIsLoggedIn(true);
+      navigate('/movies');
+    });
+  };
+
+  const handler = () => {
+    console.log('!!!');
   };
 
   const logOut = () => {
-    localStorage.removeItem("JWT");
+    localStorage.removeItem('JWT');
     setIsLoggedIn(false);
-    setCurrentUser({ name: "", email: "" });
+    setCurrentUser({ name: '', email: '' });
   };
 
   const editProfile = (data) => {
-    mainApi
-      .updateUser(data)
-      .then(() => setCurrentUser(data))
-      .catch((err) => setPopupMessage(err));
+    console.log(data);
+   
+    // mainApi.updateUser(data).then((res) => console.log(res))
+    //   .then(() => setCurrentUser(data))
+    //   .catch((err) => setPopupMessage(err));
+    
+    if (localStorage.getItem('JWT')) {
+      mainApi.updateUser(data).then(res => console.log(res))
+    }
   };
 
   const saveCard = (data) => {
@@ -119,23 +120,20 @@ const App = () => {
       duration: data.duration,
       year: data.year,
       description: data.description,
-      image: "https://api.nomoreparties.co/" + data.image.url,
+      image: 'https://api.nomoreparties.co/' + data.image.url,
       trailerLink: data.trailerLink,
       nameRU: data.nameRU,
       nameEN: data.nameEN,
       thumbnail:
-        "https://api.nomoreparties.co/" + data.image.formats.thumbnail.url,
+        'https://api.nomoreparties.co/' + data.image.formats.thumbnail.url,
       movieId: data.id,
     };
-    mainApi
-      .addMovie(card)
-      .then((res) => setSavedCards([...savedCards, res]));
   };
 
   const removeCard = (card) => {
-    mainApi.removeMovie(card._id)
+    mainApi.removeMovie(card._id);
     setSavedCards((savedCards) =>
-      savedCards.filter((c) => (c._id !== card._id ? c : ""))
+      savedCards.filter((c) => (c._id !== card._id ? c : ''))
     );
   };
 
@@ -144,7 +142,10 @@ const App = () => {
   };
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider
+      value={{ currentUser, isLoggedIn, setIsLoggedIn }}
+    >
+      <button onClick={handler}>click</button>
       <div className="content">
         <div className="wrapper">
           {/* {popupMessage ? <Popup setVisible={setPopupVisible} setPopupMessage={setPopupMessage}>{popupMessage}</Popup> : null} */}
@@ -154,14 +155,11 @@ const App = () => {
               element={<Register registration={registration} />}
             />
             <Route path="/signin" element={<Login logIn={logIn} />} />
-            <Route element={<Layout isLoggedIn={isLoggedIn} />}>
+            <Route element={<Layout />}>
               <Route path="/" element={<Main />} />
             </Route>
-            <Route
-              path="/"
-              element={<ProtectedRoute isLoggedIn={isLoggedIn} />}
-            >
-              <Route element={<Layout isLoggedIn={isLoggedIn} />}>
+            <Route path="/" element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
                 <Route
                   path="/movies"
                   element={

@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { CurrentUserContext } from '../../hoc/CurrentUserContext';
 import Navigation from '../Navigation/Navigation';
 import NavTab from '../NavTab/NavTab'
 
 import './Header.scss';
 
-const Header = ({isLoggedIn}) => {
+const Header = ({}) => {
+  const {isLoggedIn} = useContext(CurrentUserContext)
   const [burgerIsActive, setBurgerIsActive] = useState(false);
   const closeBurgerMenu = () => setBurgerIsActive(false)
 

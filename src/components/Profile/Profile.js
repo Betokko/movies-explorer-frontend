@@ -7,7 +7,7 @@ import { CurrentUserContext } from '../../hoc/CurrentUserContext'
 import "./Profile.scss";
 
 const Profile = ({logOut, editProfile}) => {
-  const currentUser = useContext(CurrentUserContext)
+  const {currentUser} = useContext(CurrentUserContext)
 
   const {
     register,

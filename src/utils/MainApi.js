@@ -9,36 +9,15 @@ class MainApi {
     this._authorization = `Bearer ${JWT}`;
   }
 
-  register(data) {
-    return fetch(`${this._url}/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then(this._checkResponse);
-  }
-
-  login(data) {
-    return fetch(`${this._url}/signin`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then(this._checkResponse);
-  }
-
-  checkValidityToken(JWT) {
+  checkJWT(token) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${JWT}`,
+        authorization: `Bearer ${token}`,
       },
     }).then(this._checkResponse);
   }
-
+  
   getUser() {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
