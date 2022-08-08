@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import Preloader from '../Preloader/Preloader';
-import SearchForm from '../SearchForm/SearchForm';
-import './Movies.scss';
+import { useState, useEffect } from "react";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Preloader from "../Preloader/Preloader";
+import SearchForm from "../SearchForm/SearchForm";
+import "./Movies.scss";
 
 const Movies = ({
-  cards,
-  setSearchQuery,
-  setIsShort,
+  filteredCards,
+  filter,
+  setFilter,
   isLoading,
   fetchCards,
   limit,
@@ -16,29 +16,43 @@ const Movies = ({
   removeCard,
 }) => {
   const [wasRequest, setWasRequest] = useState(false);
+  const [isMoviePage, setIsMoviePage] = useState(false);
+
+  useEffect(() => {
+    if (window.location.pathname === "/movies") {
+      setIsMoviePage(true);
+    }
+  }, []);
+
   return (
     <main>
       <SearchForm
+        filter={filter}
+        setFilter={setFilter}
         fetchCards={fetchCards}
-        setSearchQuery={setSearchQuery}
-        setIsShort={setIsShort}
         limit={limit}
         setLimit={setLimit}
         setWasRequest={setWasRequest}
+        isMoviePage={isMoviePage}
       />
-      {/* {wasARequest && !cards.length ? <div style={{textAlign: 'center'}}>Ничего не найдено</div> : null} */}
-      {isLoading 
-        ? <Preloader />
-        : <MoviesCardList
-            name="Сохранить"
-            cards={cards}
-            limit={limit}
-            setLimit={setLimit}
-            saveCard={saveCard}
-            removeCard={removeCard}
-          />
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList
+          name="Сохранить"
+          filteredCards={filteredCards}
+          limit={limit}
+          setLimit={setLimit}
+          saveCard={saveCard}
+          removeCard={removeCard}
+          isMoviePage={isMoviePage}
+        />
+      )}
+      {filteredCards.length === 0 && wasRequest 
+        ? <div style={{ textAlign: "center" }}>Ничего не найдено</div> 
+        : null
       }
-      {cards.length === 0 && wasRequest ? <div style={{ textAlign: 'center' }}>Ничего не найдено</div> : null} </main>
+    </main>
   );
 };
 

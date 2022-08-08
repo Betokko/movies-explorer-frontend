@@ -1,21 +1,21 @@
 import { useMemo } from 'react';
 
-export const useSortedCards = (cards, sort) => {
-  const sortedCards = useMemo(() => {
-    if (!sort) {
+export const useShortedCards = (cards, filter) => {
+  const shortedCards = useMemo(() => {
+    if (!filter.short) {
       return cards;
     }
     return cards.filter((card) => card.duration <= 40);
-  }, [sort, cards]);
-  return sortedCards;
+  }, [filter.short, cards]);
+  return shortedCards;
 };
 
-export const useSortedAndSearchedCards = (cards, sort, query) => {
-  const sortedCards = useSortedCards(cards, sort);
-  const sortedAndSearchedCards = useMemo(() => {
-    return sortedCards.filter((sortedCards) =>
-      sortedCards.nameRU.toLowerCase().includes(query.toLocaleLowerCase())
+export const useShortedAndSearchedCards = (cards, filter) => {
+  const shortedCards = useShortedCards(cards, filter);
+  const shortedAndSearchedCards = useMemo(() => {
+    return shortedCards.filter((sortedCards) =>
+      sortedCards.nameRU.toLowerCase().includes(filter.query.toLocaleLowerCase())
     );
-  }, [query, sortedCards]);
-  return sortedAndSearchedCards;
+  }, [filter.query, shortedCards]);
+  return shortedAndSearchedCards;
 };

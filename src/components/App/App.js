@@ -1,43 +1,40 @@
-import { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
-import Main from '../Main/Main';
-import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Register from '../Register/Register';
-import Login from '../Login/Login';
-import Profile from '../Profile/Profile';
-import Layout from '../Layout/Layout';
-import PageNotFound from '../PageNotFound/PageNotFound';
-import Popup from '../Popup/Popup';
+import Main from "../Main/Main";
+import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import Register from "../Register/Register";
+import Login from "../Login/Login";
+import Profile from "../Profile/Profile";
+import Layout from "../Layout/Layout";
+import PageNotFound from "../PageNotFound/PageNotFound";
+import Popup from "../Popup/Popup";
 
-import { movieApi } from '../../utils/MoviesApi';
-import { mainApi } from '../../utils/MainApi';
-import { useSortedAndSearchedCards } from '../../utils/useCards';
-import { ProtectedRoute } from '../../hoc/ProtectedRoute';
-import { CurrentUserContext } from '../../hoc/CurrentUserContext';
-import './App.scss';
+import { movieApi } from "../../utils/MoviesApi";
+import { mainApi } from "../../utils/MainApi";
+import { useShortedAndSearchedCards } from "../../utils/useCards";
+import { ProtectedRoute } from "../../hoc/ProtectedRoute";
+import { CurrentUserContext } from "../../hoc/CurrentUserContext";
+import "./App.scss";
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState({ email: '', name: '' });
+  const [currentUser, setCurrentUser] = useState({ email: "", name: "" });
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
-  const [isShort, setIsShort] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState({query:'', short: false})
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(0);
-  const sortedAndSearchedCards = useSortedAndSearchedCards( cards, isShort, searchQuery );
-  const savedSortedAndSearchedCards = useSortedAndSearchedCards( savedCards, isShort, searchQuery );
-  const [popupMessage, setPopupMessage] = useState('');
+  const filteredCards = useShortedAndSearchedCards(cards, filter)
+  const filteredSavedCards = useShortedAndSearchedCards(savedCards, filter);
+  const [popupMessage, setPopupMessage] = useState("");
   const [popupVisible, setPopupVisible] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  // const [width, setWidth]   = useState(window.innerWidth);
 
   useEffect(() => {
     checkToken();
   }, []);
-  
 
   const fetchCards = () => {
     setIsLoading(true);
@@ -49,21 +46,20 @@ const App = () => {
   };
 
   const getSavedCards = () => {
-    mainApi.getMovies()
-    .then(res => {
-      setSavedCards(res)
-    })
+    mainApi.getMovies().then((res) => {
+      setSavedCards(res);
+    });
   };
 
   const checkToken = () => {
-    const JWT = localStorage.getItem('JWT');
+    const JWT = localStorage.getItem("JWT");
     if (JWT) {
       mainApi
         .checkValidityToken(JWT)
         .then(() => setIsLoggedIn(true))
-        .then(() => navigate('/movies'))
-        .then(() => mainApi.getUser()
-          .then((res) => {
+        .then(() => navigate("/movies"))
+        .then(() =>
+          mainApi.getUser().then((res) => {
             setCurrentUser(res);
           })
         );
@@ -81,11 +77,11 @@ const App = () => {
     mainApi
       .login(data)
       .then((res) => {
-        localStorage.setItem('JWT', res.token);
+        localStorage.setItem("JWT", res.token);
         setIsLoggedIn(true);
-        navigate('/movies');
+        navigate("/movies");
         mainApi
-          .checkValidityToken(localStorage.getItem('JWT'))
+          .checkValidityToken(localStorage.getItem("JWT"))
           .then((res) => setCurrentUser(res));
       })
       .catch((err) => setPopupMessage(err));
@@ -93,9 +89,9 @@ const App = () => {
   };
 
   const logOut = () => {
-    localStorage.removeItem('JWT');
+    localStorage.removeItem("JWT");
     setIsLoggedIn(false);
-    setCurrentUser({ name: '', email: '' });
+    setCurrentUser({ name: "", email: "" });
   };
 
   const editProfile = (data) => {
@@ -112,69 +108,87 @@ const App = () => {
       duration: data.duration,
       year: data.year,
       description: data.description,
-      image: 'https://api.nomoreparties.co/'+data.image.url,
+      image: "https://api.nomoreparties.co/" + data.image.url,
       trailerLink: data.trailerLink,
       nameRU: data.nameRU,
       nameEN: data.nameEN,
-      thumbnail: 'https://api.nomoreparties.co/'+data.image.formats.thumbnail.url,
+      thumbnail:
+        "https://api.nomoreparties.co/" + data.image.formats.thumbnail.url,
       movieId: data.id,
-    }
+    };
     mainApi.addMovie(card).then((res) => setSavedCards([...savedCards, res]));
   };
 
   const removeCard = (card) => {
-    mainApi.removeMovie(card._id).then(res => console.log(res))
-    setSavedCards(savedCards => savedCards.filter((c) => (c._id !== card._id ? c : '')))
-  }
+    mainApi.removeMovie(card._id).then((res) => console.log(res));
+    setSavedCards((savedCards) =>
+      savedCards.filter((c) => (c._id !== card._id ? c : ""))
+    );
+  };
 
-  const togglePopup = (popupVisible) => { 
-    setPopupVisible(!popupVisible)
-   }
+  const togglePopup = (popupVisible) => {
+    setPopupVisible(!popupVisible);
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="content">
         <div className="wrapper">
-          { popupMessage ? <Popup setVisible={togglePopup} setPopupMessage={setPopupMessage}>{popupMessage} 💔 </Popup> : null }
+          {/* {popupMessage ? <Popup setVisible={setPopupVisible} setPopupMessage={setPopupMessage}>{popupMessage}</Popup> : null} */}
           <Routes>
-            <Route path="/signup" element={<Register registration={registration} />} />
+            <Route
+              path="/signup"
+              element={<Register registration={registration} />}
+            />
             <Route path="/signin" element={<Login logIn={logIn} />} />
             <Route element={<Layout isLoggedIn={isLoggedIn} />}>
               <Route path="/" element={<Main />} />
             </Route>
-            <Route path="/" element={<ProtectedRoute isLoggedIn={isLoggedIn} />} >
+            <Route
+              path="/"
+              element={<ProtectedRoute isLoggedIn={isLoggedIn} />}
+            >
               <Route element={<Layout isLoggedIn={isLoggedIn} />}>
-                <Route path="/movies" element={
+                <Route
+                  path="/movies"
+                  element={
                     <Movies
-                      cards={sortedAndSearchedCards}
-                      fetchCards={fetchCards}
-                      searchQuery={searchQuery}
-                      setSearchQuery={setSearchQuery}
-                      isShort={isShort}
-                      setIsShort={setIsShort}
+                      filteredCards={filteredCards}
+                      filter={filter}
+                      setFilter={setFilter}
                       isLoading={isLoading}
                       setIsLoading={setIsLoading}
                       limit={limit}
                       setLimit={setLimit}
-                      saveCard={saveCard} 
+                      fetchCards={fetchCards}
+                      saveCard={saveCard}
                       removeCard={removeCard}
-                    /> } />
-                <Route path="/saved-movies" element={
+                    />
+                  }
+                />
+                <Route
+                  path="/saved-movies"
+                  element={
                     <SavedMovies
-                      cards={savedSortedAndSearchedCards}
+                      filteredSavedCards={filteredSavedCards}
+                      filter={filter}
+                      setFilter={setFilter}
                       getSavedCards={getSavedCards}
                       savedCards={savedCards}
-                      searchQuery={searchQuery}
-                      setSearchQuery={setSearchQuery}
-                      isShort={isShort}
-                      setIsShort={setIsShort}
                       isLoading={isLoading}
                       setIsLoading={setIsLoading}
                       limit={limit}
                       setLimit={setLimit}
-                      removeCard={removeCard} 
-                    /> } />
-                <Route path="/profile" element={ <Profile logOut={logOut} editProfile={editProfile} /> } />
+                      removeCard={removeCard}
+                    />
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <Profile logOut={logOut} editProfile={editProfile} />
+                  }
+                />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
             </Route>
