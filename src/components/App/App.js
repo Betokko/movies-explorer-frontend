@@ -29,7 +29,6 @@ const App = () => {
   const [filter, setFilter] = useState({ query: '', short: false });
   const [limit, setLimit] = useState(0);
   const [popupMessage, setPopupMessage] = useState('');
-  const [popupVisible, setPopupVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -48,7 +47,8 @@ const App = () => {
         setIsLoggedIn(true);
         setCurrentUser(res);
         navigate('/movies');
-      });
+      })
+      .catch(err => setPopupMessage(err))
     }
   }
 
@@ -56,6 +56,7 @@ const App = () => {
     const loginData = { email: data.email, password: data.password };
     auth.registration(data)
       .then(() => logIn(loginData))
+      
   };
 
   const logIn = (data) => {
@@ -90,16 +91,19 @@ const App = () => {
       .getCards(localStorage.getItem('JWT'))
       .then((res) => setCards(res))
       .then(() => setIsLoading(false))
-      .catch((err) => console.log(err));
+      .catch(err => setPopupMessage(err))
   };
 
   const getSavedCards = () => {
     setIsLoading(true);
     mainApi
       .getMovies(localStorage.getItem('JWT'))
-      .then((res) => setSavedCards(res))
+      .then((res) => {
+        setSavedCards(res)
+        console.log(res)
+      })
       .then(() => setIsLoading(false))
-      .catch((err) => console.log(err));
+      .catch(err => setPopupMessage(err))
   };
 
   const saveCard = (data) => {
@@ -118,22 +122,20 @@ const App = () => {
       movieId: data.id,
     };
     mainApi.addMovie(card, localStorage.getItem('JWT'))
+    .catch(err => setPopupMessage(err))
   };
 
   const removeCard = (card) => {
     mainApi.removeMovie(card._id, localStorage.getItem('JWT'))
       .then(() => setSavedCards(savedCards.filter((c) => c._id !== card._id)))
-  };
-
-  const togglePopup = (popupVisible) => {
-    setPopupVisible(!popupVisible);
+      .catch(err => setPopupMessage(err))
   };
 
   return (
     <CurrentUserContext.Provider value={{ currentUser, isLoggedIn, setIsLoggedIn }} >
-    {/* {popupMessage ? <Popup setVisible={setPopupVisible} setPopupMessage={setPopupMessage}>{popupMessage}</Popup> : null} */}
       <div className="content">
         <div className="wrapper">
+          {popupMessage ? <Popup popupMessage={popupMessage} setPopupMessage={setPopupMessage}> {popupMessage}💔</Popup> : null }
           <Routes>
             <Route
               path="/signup"

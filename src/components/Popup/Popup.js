@@ -1,14 +1,13 @@
 import styles from './Popup.module.css'
 
-const Popup = ({children, setVisible, setPopupMessage}) => {
+const Popup = ({children, popupMessage, setPopupMessage}) => {
 
   const classes = [styles.popup]
-  if (setVisible) {
+  if (popupMessage) {
     classes.push(styles.active)
   }
 
   const handleClick = () => { 
-    setVisible()
     setPopupMessage('')
    }
 
