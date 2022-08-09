@@ -13,9 +13,9 @@ const SearchForm = ({
 }) => {
   useEffect(() => {
     if (!isMoviePage) {
-      getSavedCards()
+      getSavedCards();
     }
-  }, [])
+  }, []);
 
   const {
     register,
@@ -29,7 +29,7 @@ const SearchForm = ({
     setFilter({ ...filter, query: data.search });
     if (isMoviePage) {
       setLimit(9);
-      getCards()
+      getCards();
       setWasRequest(true);
       setRequest(data.search);
     }
@@ -37,6 +37,10 @@ const SearchForm = ({
 
   const [request, setRequest] = useState("");
   const checkbox = useRef();
+
+  useEffect(() => {
+    setFilter({ query: "", short: false });
+  }, []);
 
   return (
     <section className="search-form">

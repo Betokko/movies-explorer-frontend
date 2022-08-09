@@ -27,10 +27,10 @@ const App = () => {
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
   const [filter, setFilter] = useState({ query: '', short: false });
-  const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(0);
   const [popupMessage, setPopupMessage] = useState('');
   const [popupVisible, setPopupVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const filteredCards = useShortedAndSearchedCards(cards, filter);
@@ -41,7 +41,6 @@ const App = () => {
   }, []);
   
   const checkToken = () => {
-    setIsLoading(true)
     const JWT = localStorage.getItem('JWT');
     if (JWT) {
       mainApi.getUser(JWT)
@@ -49,7 +48,6 @@ const App = () => {
         setIsLoggedIn(true);
         setCurrentUser(res);
         navigate('/movies');
-        setIsLoading(false)
       });
     }
   }
@@ -155,7 +153,6 @@ const App = () => {
                       filter={filter}
                       setFilter={setFilter}
                       isLoading={isLoading}
-                      setIsLoading={setIsLoading}
                       limit={limit}
                       setLimit={setLimit}
                       getCards={getCards}
@@ -172,7 +169,6 @@ const App = () => {
                       filter={filter}
                       setFilter={setFilter}
                       isLoading={isLoading}
-                      setIsLoading={setIsLoading}
                       limit={limit}
                       setLimit={setLimit}
                       getCards={getCards}
