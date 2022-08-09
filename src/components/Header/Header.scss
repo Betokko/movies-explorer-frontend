@@ -8,7 +8,7 @@
   justify-content: space-between;
   align-items: center;
   height: 74px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 1);
   backdrop-filter: blur(10px);
   @media (max-width: 1023px) {
     padding: 0 30px;
@@ -172,7 +172,6 @@
   .active {
     cursor: default;
     text-decoration: underline;
-    background-color: inherit;
     &:hover {
       opacity: 1;
     }

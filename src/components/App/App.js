@@ -41,13 +41,15 @@ const App = () => {
   }, []);
   
   const checkToken = () => {
+    setIsLoading(true)
     const JWT = localStorage.getItem('JWT');
     if (JWT) {
       mainApi.getUser(JWT)
       .then((res) => {
         setIsLoggedIn(true);
         setCurrentUser(res);
-        navigate('/');
+        navigate('/movies');
+        setIsLoading(false)
       });
     }
   }
@@ -69,12 +71,19 @@ const App = () => {
       mainApi.getUser(JWT)
         .then(res => setCurrentUser(res))
     })
+    .catch(err => setPopupMessage(err))
   };
 
   const logOut = () => {
     localStorage.removeItem('JWT');
     setIsLoggedIn(false);
     setCurrentUser({ name: '', email: '' });
+  };
+
+  const editProfile = (data) => {
+    mainApi.updateUser(data, localStorage.getItem('JWT'))
+    .then(res => setCurrentUser(res))
+    .catch(err => setPopupMessage(err))
   };
 
   const getCards = () => {
@@ -93,11 +102,6 @@ const App = () => {
       .then((res) => setSavedCards(res))
       .then(() => setIsLoading(false))
       .catch((err) => console.log(err));
-  };
-
-  const editProfile = (data) => {
-    mainApi.updateUser(data, localStorage.getItem('JWT'))
-    .then(res => setCurrentUser(res))
   };
 
   const saveCard = (data) => {
@@ -127,19 +131,11 @@ const App = () => {
     setPopupVisible(!popupVisible);
   };
 
-  const handler = () => {
-    mainApi.getMovies(localStorage.getItem('JWT'))
-      .then(res => console.log(res))
-  };
-
   return (
-    <CurrentUserContext.Provider
-      value={{ currentUser, isLoggedIn, setIsLoggedIn }}
-    >
-      <button onClick={handler}>click</button>
+    <CurrentUserContext.Provider value={{ currentUser, isLoggedIn, setIsLoggedIn }} >
+    {/* {popupMessage ? <Popup setVisible={setPopupVisible} setPopupMessage={setPopupMessage}>{popupMessage}</Popup> : null} */}
       <div className="content">
         <div className="wrapper">
-          {/* {popupMessage ? <Popup setVisible={setPopupVisible} setPopupMessage={setPopupMessage}>{popupMessage}</Popup> : null} */}
           <Routes>
             <Route
               path="/signup"

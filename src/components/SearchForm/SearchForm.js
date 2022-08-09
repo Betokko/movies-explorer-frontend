@@ -40,7 +40,6 @@ const SearchForm = ({
 
   return (
     <section className="search-form">
-      {isMoviePage ? <h2>DA</h2> : <h2>NET</h2>}
       <form
         className="search-form__container"
         onSubmit={handleSubmit(onSubmit)}
