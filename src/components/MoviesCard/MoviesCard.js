@@ -24,7 +24,6 @@ const MoviesCard = ({
 
   return (
     <li className="movie-card">
-      {console.log(isMoviePage)}
       {!isLike 
       ? <button 
         className="movie-card__save" 

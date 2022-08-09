@@ -47,11 +47,11 @@ const App = () => {
       .then((res) => {
         setIsLoggedIn(true);
         setCurrentUser(res);
-        navigate('/')
+        navigate('/');
       });
     }
   }
-  
+
   const registration = (data) => {
     const loginData = { email: data.email, password: data.password };
     auth.registration(data)
@@ -80,7 +80,7 @@ const App = () => {
   const getCards = () => {
     setIsLoading(true);
     movieApi
-      .getCards()
+      .getCards(localStorage.getItem('JWT'))
       .then((res) => setCards(res))
       .then(() => setIsLoading(false))
       .catch((err) => console.log(err));
@@ -89,20 +89,11 @@ const App = () => {
   const getSavedCards = () => {
     setIsLoading(true);
     mainApi
-      .getMovies()
+      .getMovies(localStorage.getItem('JWT'))
       .then((res) => setSavedCards(res))
       .then(() => setIsLoading(false))
       .catch((err) => console.log(err));
   };
-
-
-
-  const handler = () => {
-    console.log(localStorage.getItem('JWT'))
-    mainApi.getUser(localStorage.getItem('JWT')).then(res => console.log(res))
-  };
-
-
 
   const editProfile = (data) => {
     mainApi.updateUser(data, localStorage.getItem('JWT'))
@@ -124,17 +115,21 @@ const App = () => {
         'https://api.nomoreparties.co/' + data.image.formats.thumbnail.url,
       movieId: data.id,
     };
+    mainApi.addMovie(card, localStorage.getItem('JWT'))
   };
 
   const removeCard = (card) => {
-    mainApi.removeMovie(card._id);
-    setSavedCards((savedCards) =>
-      savedCards.filter((c) => (c._id !== card._id ? c : ''))
-    );
+    mainApi.removeMovie(card._id, localStorage.getItem('JWT'))
+      .then(() => setSavedCards(savedCards.filter((c) => c._id !== card._id)))
   };
 
   const togglePopup = (popupVisible) => {
     setPopupVisible(!popupVisible);
+  };
+
+  const handler = () => {
+    mainApi.getMovies(localStorage.getItem('JWT'))
+      .then(res => console.log(res))
   };
 
   return (

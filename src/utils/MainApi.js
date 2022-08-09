@@ -29,31 +29,31 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  getMovies() {
+  getMovies(JWT) {
     return fetch(`${this._url}/movies`, {
       method: 'GET',
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${JWT}`,
       },
     }).then(this._checkResponse);
   }
   
-  addMovie(data) {
+  addMovie(data, JWT) {
     return fetch(`${this._url}/movies`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: this._authorization,
+        authorization: `Bearer ${JWT}`,
       },
       body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
 
-  removeMovie(id) {
+  removeMovie(id, JWT) {
     return fetch(`${this._url}/movies/${id}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${JWT}`,
       },
     }).then(this._checkResponse);
   }
