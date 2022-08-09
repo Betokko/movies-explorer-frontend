@@ -18,12 +18,12 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  updateUser(data) {
+  updateUser(data, JWT) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        authorization: this._authorization,
+        authorization: `Bearer ${JWT}`,
       },
       body: JSON.stringify(data)
     }).then(this._checkResponse);

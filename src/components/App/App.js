@@ -26,11 +26,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
-  const [filter, setFilter] = useState({
-    query: '',
-    short: false,
-    names: [''],
-  });
+  const [filter, setFilter] = useState({ query: '', short: false });
   const [isLoading, setIsLoading] = useState(false);
   const [limit, setLimit] = useState(0);
   const [popupMessage, setPopupMessage] = useState('');
@@ -55,6 +51,31 @@ const App = () => {
       });
     }
   }
+  
+  const registration = (data) => {
+    const loginData = { email: data.email, password: data.password };
+    auth.registration(data)
+      .then(() => logIn(loginData))
+  };
+
+  const logIn = (data) => {
+    let JWT;
+    auth.login(data)
+    .then((res) => {
+      JWT = res.token;
+      localStorage.setItem('JWT', JWT);
+      setIsLoggedIn(true);
+      navigate('/movies');
+      mainApi.getUser(JWT)
+        .then(res => setCurrentUser(res))
+    })
+  };
+
+  const logOut = () => {
+    localStorage.removeItem('JWT');
+    setIsLoggedIn(false);
+    setCurrentUser({ name: '', email: '' });
+  };
 
   const getCards = () => {
     setIsLoading(true);
@@ -74,48 +95,18 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
-  const registration = (data) => {
-    const loginData = { email: data.email, password: data.password };
-    auth.registration(data)
-      .then(() => logIn(loginData))
-      .then(() => navigate('/'))
-    
-  };
 
-  const logIn = (data) => {
-    let JWT;
-    auth.login(data)
-    .then((res) => {
-      JWT = res.token;
-      localStorage.setItem('JWT', JWT);
-      setIsLoggedIn(true);
-      navigate('/movies');
-      mainApi.getUser(JWT)
-        .then(res => setCurrentUser(res))
-    })
-  };
 
   const handler = () => {
     console.log(localStorage.getItem('JWT'))
     mainApi.getUser(localStorage.getItem('JWT')).then(res => console.log(res))
   };
 
-  const logOut = () => {
-    localStorage.removeItem('JWT');
-    setIsLoggedIn(false);
-    setCurrentUser({ name: '', email: '' });
-  };
+
 
   const editProfile = (data) => {
-    console.log(data);
-   
-    // mainApi.updateUser(data).then((res) => console.log(res))
-    //   .then(() => setCurrentUser(data))
-    //   .catch((err) => setPopupMessage(err));
-    
-    if (localStorage.getItem('JWT')) {
-      mainApi.updateUser(data).then(res => console.log(res))
-    }
+    mainApi.updateUser(data, localStorage.getItem('JWT'))
+    .then(res => setCurrentUser(res))
   };
 
   const saveCard = (data) => {
