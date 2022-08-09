@@ -98,10 +98,7 @@ const App = () => {
     setIsLoading(true);
     mainApi
       .getMovies(localStorage.getItem('JWT'))
-      .then((res) => {
-        setSavedCards(res)
-        console.log(res)
-      })
+      .then((res) => setSavedCards(res))
       .then(() => setIsLoading(false))
       .catch(err => setPopupMessage(err))
   };
