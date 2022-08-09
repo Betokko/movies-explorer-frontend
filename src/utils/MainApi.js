@@ -9,20 +9,11 @@ class MainApi {
     this._authorization = `Bearer ${JWT}`;
   }
 
-  checkJWT(token) {
+  getUser(JWT) {
     return fetch(`${this._url}/users/me`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${token}`,
-      },
-    }).then(this._checkResponse);
-  }
-  
-  getUser() {
-    return fetch(`${this._url}/users/me`, {
-      method: 'GET',
-      headers: {
-        authorization: this._authorization,
+        authorization: `Bearer ${JWT}`,
       },
     }).then(this._checkResponse);
   }

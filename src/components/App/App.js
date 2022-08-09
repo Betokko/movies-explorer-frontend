@@ -41,21 +41,20 @@ const App = () => {
   const filteredSavedCards = useShortedAndSearchedCards(savedCards, filter);
 
   useEffect(() => {
-    if (localStorage.getItem('JWT')) {
-      mainApi.checkJWT(localStorage.getItem('JWT')).then(() => {
-        setIsLoggedIn(true);
-        navigate('/');
-      });
-    }
+    checkToken()
   }, []);
-
-  useEffect(() => {
-    if (localStorage.getItem('JWT')) {
-      mainApi.checkJWT(localStorage.getItem('JWT')).then((res) => {
+  
+  const checkToken = () => {
+    const JWT = localStorage.getItem('JWT');
+    if (JWT) {
+      mainApi.getUser(JWT)
+      .then((res) => {
+        setIsLoggedIn(true);
         setCurrentUser(res);
+        navigate('/')
       });
     }
-  }, [isLoggedIn]);
+  }
 
   const getCards = () => {
     setIsLoading(true);
@@ -84,15 +83,21 @@ const App = () => {
   };
 
   const logIn = (data) => {
-    auth.login(data).then((res) => {
-      localStorage.setItem('JWT', res.token);
+    let JWT;
+    auth.login(data)
+    .then((res) => {
+      JWT = res.token;
+      localStorage.setItem('JWT', JWT);
       setIsLoggedIn(true);
       navigate('/movies');
-    });
+      mainApi.getUser(JWT)
+        .then(res => setCurrentUser(res))
+    })
   };
 
   const handler = () => {
-    console.log('!!!');
+    console.log(localStorage.getItem('JWT'))
+    mainApi.getUser(localStorage.getItem('JWT')).then(res => console.log(res))
   };
 
   const logOut = () => {
