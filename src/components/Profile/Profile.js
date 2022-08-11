@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from 'react-hook-form';
 import validator from 'validator';
 
@@ -17,9 +17,12 @@ const Profile = ({logOut, editProfile}) => {
   } = useForm({ mode: 'onChange' });
 
   const onSubmit = (data) => {
+
     editProfile(data)
     reset();
   };
+
+  const [user, setUser] = useState({name: "", email: ""})
 
   return (
     <main className="profile">
@@ -36,21 +39,21 @@ const Profile = ({logOut, editProfile}) => {
                   value: 2,
                   message: 'Имя должно содержать не менее 2 символов',
                 },
+                validate: v => v.toLowerCase() !== currentUser.name.toLowerCase()
               })}
               className="profile__items__input"
               id="name"
               placeholder={currentUser.name}
             />
           </label>
-          {errors.name && <div className="profile__items__error">{errors.name.message}</div>}
           <label className="profile__items__label" htmlFor="email">
             <span>Email</span>
             <input
               {...register('email', {
                 required: 'Введите email',
                 validate: {
-                  checkEmail: (v) =>
-                    validator.isEmail(v) || 'Укажите корректный email',
+                  checkEmail: (v) => validator.isEmail(v) || 'Укажите корректный email',
+                  ceckMatch: (v) => v.toLowerCase() !== currentUser.name.toLowerCase(),
                 },
               })}
               className="profile__items__input"

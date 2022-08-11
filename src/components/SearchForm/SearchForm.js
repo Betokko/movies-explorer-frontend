@@ -11,6 +11,8 @@ const SearchForm = ({
   wasRequest,
   setWasRequest,
   isMoviePage,
+  request,
+  setRequest,
 }) => {
   useEffect(() => {
     if (!isMoviePage) {
@@ -37,13 +39,6 @@ const SearchForm = ({
       setRequest(data.search);
     }
   };
-
-  const [request, setRequest] = useState("");
-  const checkbox = useRef();
-
-  useEffect(() => {
-    setFilter({ query: "", short: false, });
-  }, []);
 
   return (
     <section className="search-form">
@@ -72,10 +67,8 @@ const SearchForm = ({
           <input
             type="checkbox"
             id="shorts"
-            ref={checkbox}
-            onChange={() =>
-              setFilter({ ...filter, short: checkbox.current.checked })
-            }
+            onChange={() => setFilter({...filter, short: !filter.short})}
+            checked={filter.short}
           />
           <span className="search-form__shorts__checkbox__bg"></span>
           <i className="search-form__shorts__checkbox__indicator"></i>

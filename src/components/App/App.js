@@ -31,6 +31,8 @@ const App = () => {
   const [popupMessage, setPopupMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [request, setRequest] = useState("");
+
 
   const filteredCards = useShortedAndSearchedCards(cards, filter, likedMovies);
   const filteredSavedCards = useShortedAndSearchedCards(savedCards, filter);
@@ -82,7 +84,9 @@ const App = () => {
 
   const editProfile = (data) => {
     mainApi.updateUser(data, localStorage.getItem('JWT'))
-    .then(res => setCurrentUser(res))
+    .then(res => {
+      setPopupMessage("Профиль успешно обновлен! 😎")
+      setCurrentUser(res)})
     .catch(err => setPopupMessage(err))
   };
 
@@ -141,7 +145,7 @@ const App = () => {
     <CurrentUserContext.Provider value={{ currentUser, isLoggedIn, setIsLoggedIn }} >
       <div className="content">
         <div className="wrapper">
-          {popupMessage ? <Popup popupMessage={popupMessage} setPopupMessage={setPopupMessage}> {popupMessage}💔</Popup> : null }
+          {popupMessage ? <Popup popupMessage={popupMessage} setPopupMessage={setPopupMessage}> {popupMessage}</Popup> : null }
           <Routes>
             <Route
               path="/signup"
@@ -167,6 +171,8 @@ const App = () => {
                       saveCard={saveCard}
                       removeCard={removeCard}
                       likedMovies={likedMovies}
+                      request={request}
+                      setRequest={setRequest}
                     />
                   }
                 />

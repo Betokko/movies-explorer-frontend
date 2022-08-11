@@ -14,7 +14,9 @@ const Movies = ({
   setLimit,
   saveCard,
   removeCard,
-  likedMovies
+  likedMovies,
+  request,
+  setRequest,
 }) => {
   const [wasRequest, setWasRequest] = useState(false);
   const isMoviePage = window.location.pathname === "/movies";
@@ -30,6 +32,8 @@ const Movies = ({
         wasRequest={wasRequest}
         setWasRequest={setWasRequest}
         isMoviePage={isMoviePage}
+        request={request}
+        setRequest={setRequest}
       />
       {isLoading 
         ? <Preloader />
