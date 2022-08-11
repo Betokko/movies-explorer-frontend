@@ -12,17 +12,18 @@ const Profile = ({logOut, editProfile}) => {
   const {
     register,
     handleSubmit,
+    watch,
     reset,
     formState: { errors, isValid },
   } = useForm({ mode: 'onChange' });
 
   const onSubmit = (data) => {
-
     editProfile(data)
     reset();
   };
 
-  const [user, setUser] = useState({name: "", email: ""})
+  const watchName = watch("name", currentUser.name);
+  const watchEmail = watch("email", currentUser.email);
 
   return (
     <main className="profile">
@@ -41,6 +42,7 @@ const Profile = ({logOut, editProfile}) => {
                 },
                 validate: v => v.toLowerCase() !== currentUser.name.toLowerCase()
               })}
+              value={watchName}
               className="profile__items__input"
               id="name"
               placeholder={currentUser.name}
@@ -56,6 +58,7 @@ const Profile = ({logOut, editProfile}) => {
                   ceckMatch: (v) => v.toLowerCase() !== currentUser.name.toLowerCase(),
                 },
               })}
+              value={watchEmail}
               className="profile__items__input"
               id="email"
               placeholder={currentUser.email}
