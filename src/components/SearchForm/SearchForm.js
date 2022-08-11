@@ -8,6 +8,7 @@ const SearchForm = ({
   getCards,
   getSavedCards,
   setLimit,
+  wasRequest,
   setWasRequest,
   isMoviePage,
 }) => {
@@ -28,8 +29,10 @@ const SearchForm = ({
     reset();
     setFilter({ ...filter, query: data.search });
     if (isMoviePage) {
+      if (!wasRequest) {
+        getCards()
+      }
       setLimit(9);
-      getCards();
       setWasRequest(true);
       setRequest(data.search);
     }
@@ -39,7 +42,7 @@ const SearchForm = ({
   const checkbox = useRef();
 
   useEffect(() => {
-    setFilter({ query: "", short: false });
+    setFilter({ query: "", short: false, });
   }, []);
 
   return (

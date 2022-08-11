@@ -10,6 +10,7 @@ const MoviesCardList = ({
   saveCard,
   removeCard,
   isMoviePage,
+  likedMovies,
 }) => {
   return (
     <section className="movies-card-list">
@@ -19,6 +20,7 @@ const MoviesCardList = ({
               .slice(0, limit)
               .map((card) => (
                 <MoviesCard
+                  likedMovies={likedMovies}
                   name={name}
                   card={card}
                   key={card.id}

@@ -14,7 +14,6 @@ import Popup from '../Popup/Popup';
 import { movieApi } from '../../utils/MoviesApi';
 import { mainApi } from '../../utils/MainApi';
 import { useShortedAndSearchedCards } from '../../utils/useCards';
-import { useLikedShortedAndSearchedCards } from '../../utils/useCards';
 import { ProtectedRoute } from '../../hoc/ProtectedRoute';
 import { CurrentUserContext } from '../../hoc/CurrentUserContext';
 import './App.scss';
@@ -26,17 +25,19 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cards, setCards] = useState([]);
   const [savedCards, setSavedCards] = useState([]);
+  const [likedMovies, setLikedMovies] = useState([]);
   const [filter, setFilter] = useState({ query: '', short: false });
   const [limit, setLimit] = useState(0);
   const [popupMessage, setPopupMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const filteredCards = useShortedAndSearchedCards(cards, filter);
+  const filteredCards = useShortedAndSearchedCards(cards, filter, likedMovies);
   const filteredSavedCards = useShortedAndSearchedCards(savedCards, filter);
 
   useEffect(() => {
     checkToken()
+    getLikedMovies()
   }, []);
   
   const checkToken = () => {
@@ -91,6 +92,7 @@ const App = () => {
       .getCards(localStorage.getItem('JWT'))
       .then((res) => setCards(res))
       .then(() => setIsLoading(false))
+      .then(() => getSavedCards())
       .catch(err => setPopupMessage(err))
   };
 
@@ -102,6 +104,11 @@ const App = () => {
       .then(() => setIsLoading(false))
       .catch(err => setPopupMessage(err))
   };
+
+  const getLikedMovies = () => {
+    mainApi.getMovies(localStorage.getItem('JWT'))
+      .then(res => setLikedMovies(res.map(i => i.nameEN)))
+  }
 
   const saveCard = (data) => {
     const card = {
@@ -119,12 +126,14 @@ const App = () => {
       movieId: data.id,
     };
     mainApi.addMovie(card, localStorage.getItem('JWT'))
+    .then(res => setLikedMovies(list => [...list, res.nameEN]))
     .catch(err => setPopupMessage(err))
   };
 
   const removeCard = (card) => {
     mainApi.removeMovie(card._id, localStorage.getItem('JWT'))
       .then(() => setSavedCards(savedCards.filter((c) => c._id !== card._id)))
+      .then(() => setLikedMovies(likedMovies.filter((c) => c !== card.nameEN)))
       .catch(err => setPopupMessage(err))
   };
 
@@ -157,6 +166,7 @@ const App = () => {
                       getCards={getCards}
                       saveCard={saveCard}
                       removeCard={removeCard}
+                      likedMovies={likedMovies}
                     />
                   }
                 />

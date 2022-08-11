@@ -1,5 +1,13 @@
 import { useMemo } from 'react';
 
+// const useLikedCards = (cards, likedMovies) => {
+//   const likedCards = useMemo(() => {
+//     console.log(likedMovies, cards.map(i => i.nameEN).filter(name => name))
+//     return cards
+//   }, [cards, likedMovies])
+//   return likedCards;
+// }
+
 export const useShortedCards = (cards, filter) => {
   const shortedCards = useMemo(() => {
     if (!filter.short) {
@@ -19,11 +27,3 @@ export const useShortedAndSearchedCards = (cards, filter) => {
   }, [filter.query, shortedCards]);
   return shortedAndSearchedCards;
 };
-
-// export const useLikedShortedAndSearchedCards = (cards, filter) => {
-//   const shortedAndSearchedCards = useShortedAndSearchedCards(cards, filter);
-//   const likedShortedAndSearchedCards = useMemo(() => {
-//     return shortedAndSearchedCards.filter((card) => !filter.names.includes(card.nameEN))
-//   }, [shortedAndSearchedCards])
-//   return likedShortedAndSearchedCards;
-// }

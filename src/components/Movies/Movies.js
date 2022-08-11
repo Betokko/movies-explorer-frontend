@@ -14,6 +14,7 @@ const Movies = ({
   setLimit,
   saveCard,
   removeCard,
+  likedMovies
 }) => {
   const [wasRequest, setWasRequest] = useState(false);
   const isMoviePage = window.location.pathname === "/movies";
@@ -26,6 +27,7 @@ const Movies = ({
         getCards={getCards}
         limit={limit}
         setLimit={setLimit}
+        wasRequest={wasRequest}
         setWasRequest={setWasRequest}
         isMoviePage={isMoviePage}
       />
@@ -39,6 +41,7 @@ const Movies = ({
           saveCard={saveCard}
           removeCard={removeCard}
           isMoviePage={isMoviePage}
+          likedMovies={likedMovies}
         />
       }
       {filteredCards.length === 0 && wasRequest 

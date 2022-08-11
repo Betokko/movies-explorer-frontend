@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './MoviesCard.scss';
 
@@ -7,30 +7,28 @@ const MoviesCard = ({
   card,
   saveCard,
   removeCard,
-  isMoviePage
+  isMoviePage,
+  likedMovies,
+  
 }) => {
   const hours = Math.trunc(card.duration / 60);
   const minutes = card.duration % 60;
-  const [isLike, setIsLike] = useState(false);
 
   const handleSaveClick = () => {
-    setIsLike(!isLike);
     saveCard(card);
   };
   const handleRemoveClick = () => {
-    setIsLike(!isLike);
     removeCard(card)
   };
 
   return (
     <li className="movie-card">
-      {!isLike 
-      ? <button 
-        className="movie-card__save" 
-        onClick={ window.location.pathname === '/movies' ? handleSaveClick : handleRemoveClick} 
-        > {name} </button> 
-      : null}
-      {isLike ? <button className="movie-card__checked" onClick={handleRemoveClick}></button> : null}
+      {isMoviePage 
+      ? likedMovies.includes(card.nameEN) 
+        ? <button className="movie-card__checked" style={{cursor:"default"}}></button> 
+        : <button className="movie-card__save" onClick={handleSaveClick} > {name} </button> 
+      : <button className="movie-card__save" onClick={handleRemoveClick} > {name} </button>
+      }
       <div className="movie-card__main">
         <img
           className="movie-card__main__img"
