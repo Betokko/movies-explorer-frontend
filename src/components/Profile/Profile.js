@@ -55,7 +55,7 @@ const Profile = ({logOut, editProfile}) => {
                 required: 'Введите email',
                 validate: {
                   checkEmail: (v) => validator.isEmail(v) || 'Укажите корректный email',
-                  ceckMatch: (v) => v.toLowerCase() !== currentUser.name.toLowerCase(),
+                  ceckMatch: (v) => v.toLowerCase() !== currentUser.email.toLowerCase(),
                 },
               })}
               value={watchEmail}
