@@ -1,18 +1,57 @@
-import React from 'react';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import Preloader from '../Preloader/Preloader';
+import { useState, useEffect } from "react";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Preloader from "../Preloader/Preloader";
+import SearchForm from "../SearchForm/SearchForm";
+import "./Movies.scss";
 
-import SearchForm from '../SearchForm/SearchForm';
+const Movies = ({
+  filteredCards,
+  filter,
+  setFilter,
+  isLoading,
+  getCards,
+  limit,
+  setLimit,
+  saveCard,
+  removeCard,
+  likedMovies,
+  request,
+  setRequest,
+}) => {
+  const [wasRequest, setWasRequest] = useState(false);
+  const isMoviePage = window.location.pathname === "/movies";
 
-import './Movies.scss';
-const arr = new Array(12).fill(true);
-
-const Movies = () => {
   return (
     <main>
-      <SearchForm />
-      <Preloader />
-      <MoviesCardList name="Сохранить" arr={arr} />
+      <SearchForm
+        filter={filter}
+        setFilter={setFilter}
+        getCards={getCards}
+        limit={limit}
+        setLimit={setLimit}
+        wasRequest={wasRequest}
+        setWasRequest={setWasRequest}
+        isMoviePage={isMoviePage}
+        request={request}
+        setRequest={setRequest}
+      />
+      {isLoading 
+        ? <Preloader />
+        : <MoviesCardList
+          name="Сохранить"
+          filteredCards={filteredCards}
+          limit={limit}
+          setLimit={setLimit}
+          saveCard={saveCard}
+          removeCard={removeCard}
+          isMoviePage={isMoviePage}
+          likedMovies={likedMovies}
+        />
+      }
+      {filteredCards.length === 0 && wasRequest 
+        ? <div style={{ textAlign: "center" }}>Ничего не найдено</div>
+        : null
+      }
     </main>
   );
 };

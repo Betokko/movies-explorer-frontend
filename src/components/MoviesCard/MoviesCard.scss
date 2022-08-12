@@ -4,6 +4,7 @@
   &__save {
     display: none;
     cursor: pointer;
+    border: none;
     position: absolute;
     right: 14px;
     top: 14px;
@@ -24,6 +25,8 @@
 
   &__checked {
     position: absolute;
+    border: none;
+    cursor: pointer;
     right: 14px;
     top: 14px;
     z-index: 50;
@@ -39,8 +42,6 @@
   &__main {
     position: relative;
     padding-bottom: 58.5%;
-
-
 
     &__img {
       width: 100%;
@@ -67,6 +68,12 @@
     &__name {
       font-size: 13px;
       font-weight: 500;
+      text-decoration: none;
+      color: #000;
+      transition: opacity .2s;
+      &:hover {
+        opacity: .5;
+      }
     }
     @media (max-width: 767px) {
       font-size: 12px;

@@ -8,7 +8,7 @@
   justify-content: space-between;
   align-items: center;
   height: 74px;
-  background-color: rgba(255,255,255,.5);
+  background-color: rgba(255, 255, 255, 1);
   backdrop-filter: blur(10px);
   @media (max-width: 1023px) {
     padding: 0 30px;
@@ -50,20 +50,11 @@
       display: flex;
       z-index: 100;
       @media (max-width: 1023px) {
-        &::before {
-          content: 'Главная';
-          left: 0;
-          right: 0;
-          padding-bottom: 28px;
-          text-align: center;
-          font-style: 18px;
-          font-weight: 500;
-        }
+
         display: flex;
         flex-direction: column;
         position: absolute;
-        padding-top: 160px;
-        padding-bottom: 90px;
+        padding: 160px 0;
         background-color: #fff;
         height: calc(100vh - 250px);
         top: 0;
@@ -181,7 +172,6 @@
   .active {
     cursor: default;
     text-decoration: underline;
-    background-color: inherit;
     &:hover {
       opacity: 1;
     }

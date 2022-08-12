@@ -1,12 +1,12 @@
 .nav-tab {
   display: flex;
   align-items: center;
-  background-color: #073042;
-  color: #fff;
-  padding: 0 70px;
   height: 74px;
   @media (max-width: 1023px) {
+    height: 100%;
     padding: 0 30px;
+    flex-direction: column;
+    justify-content: flex-start;
   }
   @media (max-width: 767px) {
     padding: 0 14px;
@@ -34,7 +34,7 @@
     }
   
     &-signin {
-      color: #fff;
+      color: #000;
     }
   
     &-signup {
@@ -43,9 +43,11 @@
       background-color: #2BE080;
       padding: 8px 20px;
       border-radius: 3px;
-      @media (max-width: 767px) {
-        margin-left: 14px;
+      @media (max-width: 1023px) {
+        margin-left: 0;
+        margin-top: 30px;
       }
+
     }
   }
 }

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import validator from 'validator';
 
 import './Register.scss';
 
-const Register = () => {
+const Register = ({ registration }) => {
   const {
     register,
     handleSubmit,
@@ -14,8 +13,8 @@ const Register = () => {
   } = useForm({ mode: 'onChange' });
 
   const onSubmit = (data) => {
-    console.log(data);
     reset();
+    registration(data);
   };
 
   return (
@@ -35,7 +34,9 @@ const Register = () => {
                   message: 'Имя должно содержать не менее 2 символов',
                 },
               })}
-              className={`text-field__input ${errors.name ? 'text-field__input-error' : ''}`}
+              className={`text-field__input ${
+                errors.name ? 'text-field__input-error' : ''
+              }`}
               type="text"
               id="name"
             />
@@ -54,7 +55,9 @@ const Register = () => {
                     validator.isEmail(v) || 'Укажите корректный email',
                 },
               })}
-              className={`text-field__input ${errors.email ? 'text-field__input-error' : ''}`}
+              className={`text-field__input ${
+                errors.email ? 'text-field__input-error' : ''
+              }`}
               type="email"
               id="email"
             />
@@ -72,7 +75,9 @@ const Register = () => {
                   message: 'Пароль должен содержать не менее 2 символов',
                 },
               })}
-              className={`text-field__input ${errors.password ? 'text-field__input-error' : ''}`}
+              className={`text-field__input ${
+                errors.password ? 'text-field__input-error' : ''
+              }`}
               type="password"
               id="password"
             />

@@ -51,6 +51,20 @@
       &:hover {
         opacity: .5;
       }
+      &:disabled {
+        background-color: #ccc;
+      }
+    }
+    &__error {
+      position: absolute;
+      font-size: 10px;
+      line-height: 12px;
+      bottom: -18px;
+      left: 23px;
+      color: #FF3055;
+    }
+    &__request {
+      color: #000;
     }
   }
 

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import NavTab from '../NavTab/NavTab';
-
 import heroLogo from '../../images/hero-logo.svg';
 
 import './Promo.scss';

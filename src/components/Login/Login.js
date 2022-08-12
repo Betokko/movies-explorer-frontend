@@ -5,7 +5,7 @@ import validator from "validator";
 
 import "../Register/Register.scss";
 
-const Login = () => {
+const Login = ({logIn}) => {
   const {
     register,
     handleSubmit,
@@ -14,8 +14,8 @@ const Login = () => {
   } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
-    console.log(data);
     reset();
+    logIn(data)
   };
 
   return (

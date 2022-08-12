@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { CurrentUserContext } from '../../hoc/CurrentUserContext';
 import Navigation from '../Navigation/Navigation';
+import NavTab from '../NavTab/NavTab'
 
 import './Header.scss';
 
-const Header = () => {
+const Header = ({}) => {
+  const {isLoggedIn} = useContext(CurrentUserContext)
   const [burgerIsActive, setBurgerIsActive] = useState(false);
   const closeBurgerMenu = () => setBurgerIsActive(false)
 
@@ -15,10 +18,11 @@ const Header = () => {
       <NavLink to="/" className="header__logo" />
       <div className={`header__menu ${ burgerIsActive ? '' : 'header__menu-active' }`} >
         <div className='header__menu__items'>
-          <Navigation onClickHandler={() => closeBurgerMenu()}/>
-          <NavLink to="/profile" className="header__menu__items__account_button" onClick={() => closeBurgerMenu()}>Аккаунт</NavLink>
+          {isLoggedIn 
+            ? <Navigation onClickHandler={() => closeBurgerMenu()}/>
+            : <NavTab/>
+          }
         </div>
-
         <div className="header__burger" onClick={() => setBurgerIsActive(!burgerIsActive)}>
           <span />
         </div>
