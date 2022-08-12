@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import "./SearchForm.scss";
 
@@ -14,6 +14,7 @@ const SearchForm = ({
   request,
   setRequest,
 }) => {
+  
   useEffect(() => {
     if (!isMoviePage) {
       getSavedCards();

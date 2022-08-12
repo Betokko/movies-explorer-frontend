@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
 import SearchForm from "../SearchForm/SearchForm";
@@ -15,6 +15,7 @@ const SavedMovies = ({
   setLimit,
   saveCard,
   removeCard,
+  savedCards,
 }) => {
   const [wasRequest, setWasRequest] = useState(false);
   const isMoviePage = window.location.pathname === "/movies";

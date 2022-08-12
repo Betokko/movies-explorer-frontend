@@ -1,4 +1,4 @@
-import { Children, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Main from '../Main/Main';
@@ -39,8 +39,10 @@ const App = () => {
 
   useEffect(() => {
     checkToken()
-    getLikedMovies()
-  }, []);
+    if (isLoggedIn) {
+      getLikedMovies()
+    }
+  }, [isLoggedIn]);
   
   const checkToken = () => {
     const JWT = localStorage.getItem('JWT');
@@ -49,7 +51,6 @@ const App = () => {
       .then((res) => {
         setIsLoggedIn(true);
         setCurrentUser(res);
-        navigate('/movies');
       })
       .catch(err => setPopupMessage(err))
     }
@@ -59,7 +60,7 @@ const App = () => {
     const loginData = { email: data.email, password: data.password };
     auth.registration(data)
       .then(() => logIn(loginData))
-      
+      .catch(err => setPopupMessage(err))
   };
 
   const logIn = (data) => {
@@ -72,6 +73,7 @@ const App = () => {
       navigate('/movies');
       mainApi.getUser(JWT)
         .then(res => setCurrentUser(res))
+        .catch(err => setPopupMessage(err))
     })
     .catch(err => setPopupMessage(err))
   };
@@ -112,6 +114,7 @@ const App = () => {
   const getLikedMovies = () => {
     mainApi.getMovies(localStorage.getItem('JWT'))
       .then(res => setLikedMovies(res.map(i => i.nameEN)))
+      .catch(err => setPopupMessage(err))
   }
 
   const saveCard = (data) => {
@@ -130,15 +133,27 @@ const App = () => {
       movieId: data.id,
     };
     mainApi.addMovie(card, localStorage.getItem('JWT'))
-    .then(res => setLikedMovies(list => [...list, res.nameEN]))
+    .then(res => {
+      setLikedMovies(list => [...list, res.nameEN])
+      setSavedCards([...savedCards, res])
+    })
     .catch(err => setPopupMessage(err))
   };
 
   const removeCard = (card) => {
-    mainApi.removeMovie(card._id, localStorage.getItem('JWT'))
-      .then(() => setSavedCards(savedCards.filter((c) => c._id !== card._id)))
+    const delCard = (id) => {
+      mainApi.removeMovie(id, localStorage.getItem('JWT'))
+      .then(() => setSavedCards(savedCards.filter((c) => c._id !== id)))
       .then(() => setLikedMovies(likedMovies.filter((c) => c !== card.nameEN)))
       .catch(err => setPopupMessage(err))
+    }
+    if (card._id) {
+      return delCard(card._id)
+    } else {
+      const currenId = savedCards.filter(c => c.nameEN === card.nameEN)[0]._id;
+      return delCard(currenId)
+    }
+
   };
 
   return (
@@ -147,19 +162,14 @@ const App = () => {
         <div className="wrapper">
           {popupMessage ? <Popup popupMessage={popupMessage} setPopupMessage={setPopupMessage}> {popupMessage}</Popup> : null }
           <Routes>
-            <Route
-              path="/signup"
-              element={<Register registration={registration} />}
-            />
+            <Route path="/signup" element={<Register registration={registration} />} />
             <Route path="/signin" element={<Login logIn={logIn} />} />
             <Route element={<Layout />}>
               <Route path="/" element={<Main />} />
             </Route>
             <Route path="/" element={<ProtectedRoute />}>
               <Route element={<Layout />}>
-                <Route
-                  path="/movies"
-                  element={
+                <Route path="/movies" element={
                     <Movies
                       filteredCards={filteredCards}
                       filter={filter}
@@ -173,12 +183,8 @@ const App = () => {
                       likedMovies={likedMovies}
                       request={request}
                       setRequest={setRequest}
-                    />
-                  }
-                />
-                <Route
-                  path="/saved-movies"
-                  element={
+                    /> } />
+                <Route path="/saved-movies" element={
                     <SavedMovies
                       filteredCards={filteredSavedCards}
                       filter={filter}
@@ -190,18 +196,13 @@ const App = () => {
                       getSavedCards={getSavedCards}
                       saveCard={saveCard}
                       removeCard={removeCard}
-                    />
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
+                    /> } />
+                <Route path="/profile" element={
                     <Profile logOut={logOut} editProfile={editProfile} />
-                  }
-                />
-                <Route path="*" element={<PageNotFound />} />
+                  } />
               </Route>
             </Route>
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
       </div>

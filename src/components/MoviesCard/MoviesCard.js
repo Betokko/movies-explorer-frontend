@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import './MoviesCard.scss';
 
 const MoviesCard = ({
@@ -25,7 +23,7 @@ const MoviesCard = ({
     <li className="movie-card">
       {isMoviePage 
       ? likedMovies.includes(card.nameEN) 
-        ? <button className="movie-card__checked" style={{cursor:"default"}}></button> 
+        ? <button className="movie-card__checked" onClick={handleRemoveClick} ></button> 
         : <button className="movie-card__save" onClick={handleSaveClick} > {name} </button> 
       : <button className="movie-card__save" onClick={handleRemoveClick} > {name} </button>
       }

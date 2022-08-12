@@ -1,29 +1,37 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import validator from 'validator';
 
-import { CurrentUserContext } from '../../hoc/CurrentUserContext'
+import { CurrentUserContext } from '../../hoc/CurrentUserContext';
 
-import "./Profile.scss";
+import './Profile.scss';
 
-const Profile = ({logOut, editProfile}) => {
-  const {currentUser} = useContext(CurrentUserContext)
+const Profile = ({ logOut, editProfile }) => {
+  const { currentUser } = useContext(CurrentUserContext);
 
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onChange' });
+    setValue,
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      name: currentUser.name,
+      email: currentUser.email,
+    },
+  });
 
   const onSubmit = (data) => {
-    editProfile(data)
+    editProfile(data);
     reset();
   };
 
-  const watchName = watch("name", currentUser.name);
-  const watchEmail = watch("email", currentUser.email);
+  useEffect(() => {
+    setValue('name', currentUser.name)
+    setValue('email', currentUser.email)
+  }, [setValue, currentUser])
 
   return (
     <main className="profile">
@@ -31,18 +39,17 @@ const Profile = ({logOut, editProfile}) => {
         <div className="profile__items">
           <h2 className="profile__title">Привет, {currentUser.name}!</h2>
           <label className="profile__items__label" htmlFor="name">
-            
             <span>Имя</span>
             <input
-              {...register('name', { 
+              {...register('name', {
                 required: 'Введите имя',
                 minLength: {
                   value: 2,
                   message: 'Имя должно содержать не менее 2 символов',
                 },
-                validate: v => v.toLowerCase() !== currentUser.name.toLowerCase()
+                validate: (v) =>
+                  v.toLowerCase() !== currentUser.name.toLowerCase(),
               })}
-              value={watchName}
               className="profile__items__input"
               id="name"
               placeholder={currentUser.name}
@@ -54,23 +61,32 @@ const Profile = ({logOut, editProfile}) => {
               {...register('email', {
                 required: 'Введите email',
                 validate: {
-                  checkEmail: (v) => validator.isEmail(v) || 'Укажите корректный email',
-                  ceckMatch: (v) => v.toLowerCase() !== currentUser.email.toLowerCase(),
+                  checkEmail: (v) =>
+                    validator.isEmail(v) || 'Укажите корректный email',
+                  ceckMatch: (v) =>
+                    v.toLowerCase() !== currentUser.email.toLowerCase(),
                 },
               })}
-              value={watchEmail}
               className="profile__items__input"
               id="email"
               placeholder={currentUser.email}
             />
           </label>
-          {errors.email && <div className="profile__items__error">{errors.email.message}</div>}
+          {errors.email && (
+            <div className="profile__items__error">{errors.email.message}</div>
+          )}
         </div>
         <div className="profile__buttons">
-          <button className="profile__button profile__button-edit" disabled={!isValid}>
+          <button
+            className="profile__button profile__button-edit"
+            disabled={!isValid}
+          >
             Редактировать
           </button>
-          <button className="profile__button profile__button-logout" onClick={() => logOut()} >
+          <button
+            className="profile__button profile__button-logout"
+            onClick={() => logOut()}
+          >
             Выйти из аккаунта
           </button>
         </div>
