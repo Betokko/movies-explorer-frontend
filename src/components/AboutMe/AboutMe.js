@@ -6,7 +6,7 @@ import './AboutMe.scss';
 
 const AboutMe = () => {
   return (
-    <section className="about-me">
+    <section className="about-me" id="portfolio">
       <p className="about-me__main">Студент</p>
       <div className="about-me__block">
         <div className="about-me__info">
@@ -23,12 +23,12 @@ const AboutMe = () => {
           </p>
           <ul className="about-me__info__links">
             <li className="about-me__info__link">
-              <Link className="about-me__info__link" to="#">
-                Facebook
+              <Link className="about-me__info__link" to="https://www.linkedin.com/in/artur-nikitin-b884a3113/">
+                LinkedIn
               </Link>
             </li>
             <li>
-              <Link className="about-me__info__link" to="#">
+              <Link className="about-me__info__link" to="https://github.com/Betokko">
                 Github
               </Link>
             </li>
