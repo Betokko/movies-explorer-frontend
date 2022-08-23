@@ -23,14 +23,14 @@ const AboutMe = () => {
           </p>
           <ul className="about-me__info__links">
             <li className="about-me__info__link">
-              <Link className="about-me__info__link" to="https://www.linkedin.com/in/artur-nikitin-b884a3113/">
+              <a className="about-me__info__link" href="https://www.linkedin.com/in/artur-nikitin-b884a3113/" target="_blank">
                 LinkedIn
-              </Link>
+              </a>
             </li>
             <li>
-              <Link className="about-me__info__link" to="https://github.com/Betokko">
+              <a className="about-me__info__link" href="https://github.com/Betokko" target="_blank" >
                 Github
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
